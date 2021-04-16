@@ -1,4 +1,5 @@
-os: linux
+# os: linux
+os: darwin
 language: node_js 
 node_js:
   - 10  # 使用 nodejs LTS v10
