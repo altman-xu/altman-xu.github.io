@@ -274,10 +274,11 @@ git push -u origin source
 ```zsh
 hexo new "postArticleName"      # 新建文章
 hexo new page "postArticleName" # 新建页面
-hexo generate                   # 简写 hexo g # 生成静态页面至public目录
-hexo server                     # 简写 hexo s # 开启预览访问端口（默认端口4000，'ctrl + c'关闭server）
-hexo deploy                     # 简写 hexo d # 将.deploy目录部署到GitHub
+hexo s                          # 简写 hexo server # 开启预览访问端口（默认端口4000，'ctrl + c'关闭server）,可边修改配置边预览
+hexo g                          # 简写 hexo generate # 生成静态页面至public目录
+hexo d                          # 简写 hexo deploy # 将.deploy目录部署到GitHub
 hexo help                       # 查看帮助
+hexo clean                      ## 清楚缓存文件(db.json)和已生成的静态文件(public)
 hexo version                    # 查看Hexo的版本
 ```
 
