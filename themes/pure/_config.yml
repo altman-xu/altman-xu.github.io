@@ -117,7 +117,7 @@ comment:
   gitment:
     githubID: 
     repo: 
-    ClientID: 
+    ClientID:
     ClientSecret: 
     lazy: false
   gitalk: # gitalk. https://gitalk.github.io/
@@ -126,6 +126,7 @@ comment:
     repo:  altman-xu.github.io.gittalk #必须. GitHub repository.
     ClientID: bd8f6d919dc9e0fab9b6 #必须. GitHub Application Client ID.
     ClientSecret: 950d37d1cf5d94c687115f3d18893d76052649c5 #必须. GitHub Application Client Secret.
+    proxy: https://netnr-proxy.cloudno.de/https://github.com/login/oauth/access_token'  # 修改源码 gitalk.ejs 添加 proxy  https://github.com/gitalk/gitalk/issues/429  https://cuiqingcai.com/30010.html
   valine: # Valine. https://valine.js.org
     appid:  # your leancloud application appid
     appkey:  # your leancloud application appkey
