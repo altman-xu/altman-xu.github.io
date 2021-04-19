@@ -4,7 +4,6 @@ date: 2021-04-19 11:50:43
 tags: 
     - Hexo
     - TraviCI
-hexo new page "postArticleName" # 新建页面
 categories: # 测试使用 主要使用 tag区分
   - 博客
 toc: true # 是否启用内容索引 (每个文字页面下面的 Catalogue/文章目录)
@@ -217,29 +216,29 @@ git push -u origin source
     directories:
         - node_modules # 缓存 node_modules 加快构建速度
     before_script: ## 根据你所用的主题和自定义的不同，这里会有所不同
-    # 使用 themes/suka 是使用的 ci 脚本 begin
-    # - npm install -g hexo-cli # 在 CI 环境内安装 Hexo
-    # - mkdir themes # 由于我们没有将 themes/ 上传，所以我们需要新建一个
-    # - cd themes 
-    # - git clone https://github.com/SukkaW/hexo-theme-suka.git suka #从 Github 上拉取 Suka 主题
-    # - cd suka
-    # - npm install --production # 安装 Suka 主题的依赖
-    # - cd ../.. # 返回站点根目录
-    # - cp _config.theme.yml themes/suka/_config.yml # 将主题的配置文件放回原处    
-    # - npm install # 在根目录安装站点需要的依赖 
-    # 使用 themes/suka 是使用的 ci 脚本 end
+        # 使用 themes/suka 是使用的 ci 脚本 begin
+        # - npm install -g hexo-cli # 在 CI 环境内安装 Hexo
+        # - mkdir themes # 由于我们没有将 themes/ 上传，所以我们需要新建一个
+        # - cd themes 
+        # - git clone https://github.com/SukkaW/hexo-theme-suka.git suka #从 Github 上拉取 Suka 主题
+        # - cd suka
+        # - npm install --production # 安装 Suka 主题的依赖
+        # - cd ../.. # 返回站点根目录
+        # - cp _config.theme.yml themes/suka/_config.yml # 将主题的配置文件放回原处    
+        # - npm install # 在根目录安装站点需要的依赖 
+        # 使用 themes/suka 是使用的 ci 脚本 end
 
-    # 使用 themes/pure 是使用的 ci 脚本 begin       ## 注: 与 suka 最大的区别是 themes 不从 Github 上拉取，而是使用自己仓库里的 原因是修改了一些源码和图片
-    - npm install -g hexo-cli # 在 CI 环境内安装 Hexo
-    - npm install hexo-wordcount --save                 # 安装插件 hexo-wordcount
-    - npm install hexo-generator-json-content --save    # 安装插件 hexo-generator-json-content
-    - npm install hexo-generator-feed --save            # 安装插件 hexo-generator-feed
-    - npm install hexo-generator-sitemap --save         # 安装插件 hexo-generator-sitemap
-    - npm install hexo-generator-baidu-sitemap --save   # 安装插件 hexo-generator-baidu-sitemap
-    - npm install # 在根目录安装站点需要的依赖 
-    # 使用 themes/pure 是使用的 ci 脚本 end
+        # 使用 themes/pure 是使用的 ci 脚本 begin       ## 注: 与 suka 最大的区别是 themes 不从 Github 上拉取，而是使用自己仓库里的 原因是修改了一些源码和图片
+        - npm install -g hexo-cli # 在 CI 环境内安装 Hexo
+        - npm install hexo-wordcount --save                 # 安装插件 hexo-wordcount
+        - npm install hexo-generator-json-content --save    # 安装插件 hexo-generator-json-content
+        - npm install hexo-generator-feed --save            # 安装插件 hexo-generator-feed
+        - npm install hexo-generator-sitemap --save         # 安装插件 hexo-generator-sitemap
+        - npm install hexo-generator-baidu-sitemap --save   # 安装插件 hexo-generator-baidu-sitemap
+        - npm install # 在根目录安装站点需要的依赖 
+        # 使用 themes/pure 是使用的 ci 脚本 end
     script: 
-    - hexo generate # generate static files
+        - hexo generate # generate static files
     deploy: # 根据个人情况，这里会有所不同
     provider: pages
     skip_cleanup: true # 构建完成后不清除
