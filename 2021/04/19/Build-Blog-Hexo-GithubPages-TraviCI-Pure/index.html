@@ -26,7 +26,7 @@
 <meta property="og:description" content="最终目的流程 在本地hexo仓库新建博客文件 Hexo new &quot;new-blog-post-name&quot; 在本地疯狂编辑博客内容 new-blog-post-name.md push 本地 hexo 仓库到 github 上 远程 Travis CI 自动触发 CI, 更新 GitHub Pages 内容 访问浏览器查看到新内容  本地环境 笔者本机电脑: macOS Cata">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-04-19T03:50:43.000Z">
-<meta property="article:modified_time" content="2021-04-19T07:53:54.249Z">
+<meta property="article:modified_time" content="2021-04-19T08:06:50.327Z">
 <meta property="article:author" content="Altman">
 <meta property="article:tag" content="Hexo">
 <meta property="article:tag" content="TraviCI">
@@ -367,7 +367,7 @@
         <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/04/19/Build-Blog-Hexo-GithubPages-TraviCI-Pure/#comments" class="article-comment-link">Comments</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 432(words)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 441(words)</span>
 	
 	
 		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 1(minutes)</span>
@@ -416,7 +416,7 @@
 
 <h2 id="问题说明"><a href="#问题说明" class="headerlink" title="问题说明"></a>问题说明</h2><h3 id="新建博客文章"><a href="#新建博客文章" class="headerlink" title="新建博客文章"></a>新建博客文章</h3><p>hexo new “postName”       新建文章时候，命令里面使用 全英文<br>然后在 _post 里面对应的 md 里面的 title， 可以使用想用的中文，避免gittalk转链接和长度限制错误</p>
 <blockquote>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/w47_csdn/article/details/88858343">[gitalk] 解决配置gitalk插件后初始化登录时跳转回首页</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/w47_csdn/article/details/88858343">[gitalk] 解决配置gitalk插件后初始化登录时跳转回首页</a><br><a target="_blank" rel="noopener" href="https://cuiqingcai.com/30010.html">Gitalk 评论登录 403 问题解决</a></p>
 </blockquote>
 
       
@@ -628,7 +628,7 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
     repo: 'altman-xu.github.io.gittalk',
     owner: 'altman-xu',
     admin: ['altman-xu'],
-    proxy: ['https://netnr-proxy.cloudno.de/https://github.com/login/oauth/access_token&#39;'],
+    proxy: ['https://shielded-brushlands-08810.herokuapp.com/https://github.com/login/oauth/access_token&#39;'],
     id: md5(location.pathname),
     distractionFreeMode: true
   })
