@@ -4,6 +4,7 @@ date: 2021-04-19 11:50:43
 tags: 
     - Hexo
     - TraviCI
+hexo new page "postArticleName" # 新建页面
 categories: # 测试使用 主要使用 tag区分
   - 博客
 toc: true # 是否启用内容索引 (每个文字页面下面的 Catalogue/文章目录)
@@ -259,7 +260,7 @@ git push -u origin source
 参照 [mac下搭建hexo+github](https://houxuefeng.com/2019/07/27/mac%E4%B8%8B%E6%90%AD%E5%BB%BAhexo-github/) 示例
 通过 `hexo g && hexo d` 将生成的静态html文件部署上git上  
 注: 这种方式没有将 源码文件也放到git上  
-我们上面的 通过 Travis CI 方式，将源码文件和生成的静态html文件都放到git上，更优雅  
+我们上面的 通过 Travis CI 方式，将源码文件和生成的静态html文件都放到git上,更优雅; 在另外的机器上重新搭建写hexo也更方便
 
 
 ## 问题说明
