@@ -110,3 +110,4 @@ hexo new "postName"       新建文章时候，命令里面使用 全英文
 
 
 > [[gitalk] 解决配置gitalk插件后初始化登录时跳转回首页](https://blog.csdn.net/w47_csdn/article/details/88858343)
+> [Gitalk 评论登录 403 问题解决](https://cuiqingcai.com/30010.html)
