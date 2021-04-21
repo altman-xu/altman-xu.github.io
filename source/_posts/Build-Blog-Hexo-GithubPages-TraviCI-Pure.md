@@ -4,8 +4,9 @@ date: 2021-04-19 11:50:43
 tags: 
     - Hexo
     - TraviCI
+    - Blog
 categories: # 测试使用 主要使用 tag区分
-  - 博客
+  - Blog
 toc: true # 是否启用内容索引 (每个文字页面下面的 Catalogue/文章目录)
 ---
 
