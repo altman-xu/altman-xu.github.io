@@ -42,7 +42,7 @@ config:
   layout: main-center # 布局方式 main-left main-center main-right
   toc: true # 是否开启文章章节目录导航
   menu_highlight: true # 是否开启当前菜单高亮显示
-  thumbnail: true # enable posts thumbnail, options: true, false
+  thumbnail: false # enable posts thumbnail, options: true, false
   excerpt_link: Read More
 
 # Pagination
@@ -220,7 +220,7 @@ profile:
     微服务:  ★★★☆☆
   # My Personal Links
   links:
-    Github: https://github.com/
+    Github: https://github.com/altman-xu/
     Blog: https://altman-xu.github.io/
   # My Personal Labels
   labels:
