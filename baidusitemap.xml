@@ -2,18 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://altman-xu.github.io/2021/04/19/Build-Blog-Hexo-GithubPages-TraviCI-Pure/</loc>
-    <lastmod>2021-04-21</lastmod>
-  </url>
-  <url>
-    <loc>https://altman-xu.github.io/2021/04/20/Build-Blog-Picture/</loc>
-    <lastmod>2021-04-21</lastmod>
+    <lastmod>2021-05-14</lastmod>
   </url>
   <url>
     <loc>https://altman-xu.github.io/2021/04/21/Kafka-Concept/</loc>
-    <lastmod>2021-04-21</lastmod>
+    <lastmod>2021-05-14</lastmod>
+  </url>
+  <url>
+    <loc>https://altman-xu.github.io/2021/04/22/Kafka-Principle/</loc>
+    <lastmod>2021-05-14</lastmod>
   </url>
   <url>
     <loc>https://altman-xu.github.io/2021/04/16/hello-world/</loc>
-    <lastmod>2021-04-21</lastmod>
+    <lastmod>2021-05-14</lastmod>
+  </url>
+  <url>
+    <loc>https://altman-xu.github.io/2021/04/20/Build-Blog-Picture/</loc>
+    <lastmod>2021-05-14</lastmod>
   </url>
 </urlset> 
