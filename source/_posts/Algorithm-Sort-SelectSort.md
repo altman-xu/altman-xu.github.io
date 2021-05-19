@@ -48,10 +48,15 @@ import (
 
 func Test_SelectSort(t *testing.T) {
 	var array = []int{1,0,3,2,4}
+
 	t.Logf("before SelectSort:%v", array)
 	SelectSort(array)
 	t.Logf("after  SelectSort:%v", array)
 
+	array = []int{1,0,3,2,4}
+	t.Logf("before SelectSort_recursion:%v", array)
+	SelectSort_recursion(array, 0)
+	t.Logf("after  SelectSort_recursion:%v", array)
 }
 ```
 
@@ -60,7 +65,9 @@ func Test_SelectSort(t *testing.T) {
 ```shell
 === RUN   Test_SelectSort
 --- PASS: Test_SelectSort (0.00s)
-    sotr_test.go:39: before SelectSort:[1 0 3 2 4]
-    sotr_test.go:41: after  SelectSort:[4 3 2 1 0]
+    sotr_test.go:40: before SelectSort:[1 0 3 2 4]
+    sotr_test.go:42: after  SelectSort:[0 1 2 3 4]
+    sotr_test.go:45: before SelectSort_recursion:[1 0 3 2 4]
+    sotr_test.go:47: after  SelectSort_recursion:[0 1 2 3 4]
 PASS
 ```
