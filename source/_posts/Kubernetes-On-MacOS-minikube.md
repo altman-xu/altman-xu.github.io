@@ -146,7 +146,7 @@ kubectl delete deployment hello-node
 ```
 
 
-## 参考文献
+## 参考资料
 [在MacOS上安装kubernetes](https://www.jianshu.com/p/93e4d1508a52)  
 [在MAC上安装K8S (kubernets) for Docker Desktop](https://zhuanlan.zhihu.com/p/65559363)  
 [手摸手教你从开发到部署(CI/CD)GO微服务系列](https://learnku.com/docs/go-micro-build/1.0/kubernetes-mac-os-based-installation-tutorial/8878)  
