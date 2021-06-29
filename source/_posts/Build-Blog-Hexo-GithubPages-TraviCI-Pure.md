@@ -10,12 +10,6 @@ categories: # 测试使用 主要使用 tag区分
 toc: true # 是否启用内容索引 (每个文字页面下面的 Catalogue/文章目录)
 ---
 
-## 参考链接
-> [Hexo 文档](https://hexo.io/zh-cn/docs/)  
-> [Travis CI 加 Hexo 实现自动构建部署 Github Pages 博客](https://segmentfault.com/a/1190000021987832)  
-> [将 Hexo 部署到 GitHub Pages](https://hexo.io/zh-cn/docs/github-pages)  
-> [Hexo 集成 Disqus 评论](https://www.cylong.com/blog/2017/03/26/hexo-next-disqus/)
-
 ## 最终目的流程
 
 1. 在本地hexo仓库新建博客文件 `Hexo new "new-blog-post-name"`
@@ -27,7 +21,7 @@ toc: true # 是否启用内容索引 (每个文字页面下面的 Catalogue/文�
 
 ## 本地环境说明
 
->笔者本机电脑: macOS Catalina  Version 10.15.7
+>本机电脑: macOS Catalina  Version 10.15.7
 
 1. Git
     ```shell
@@ -269,7 +263,6 @@ git push -u origin source
     hexo new "postArticleName"      新建文章时候，命令里的 postArticleName 文章名字使用 全英文  
     然后在 _post 里面对应的 md 里面的 title， 可以使用想用的中文，避免gittalk转链接和长度限制错误
 
-
 ## hexo 常用命令
 
 ```zsh
@@ -301,3 +294,12 @@ toc: true   # 是否启用内容索引 (每个文字页面下面的 Catalogue/�
 
 ##
 ```
+
+## 图床
+[本博客搭建:PicGo+GitHub作为图床](https://altman-xu.github.io/2021/04/20/Build-Blog-Picture/)
+
+## 参考链接
+> [Hexo 文档](https://hexo.io/zh-cn/docs/)  
+> [Travis CI 加 Hexo 实现自动构建部署 Github Pages 博客](https://segmentfault.com/a/1190000021987832)  
+> [将 Hexo 部署到 GitHub Pages](https://hexo.io/zh-cn/docs/github-pages)  
+> [Hexo 集成 Disqus 评论](https://www.cylong.com/blog/2017/03/26/hexo-next-disqus/)
