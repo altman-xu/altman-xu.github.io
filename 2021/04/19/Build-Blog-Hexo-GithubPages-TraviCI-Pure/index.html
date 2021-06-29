@@ -18,15 +18,15 @@
   
   
   <title>本博客搭建:Hexo+GithubPages+TraviCI+pure | Altman&#39;s Blog</title>
-  <meta name="description" content="参考链接 Hexo 文档Travis CI 加 Hexo 实现自动构建部署 Github Pages 博客将 Hexo 部署到 GitHub PagesHexo 集成 Disqus 评论  最终目的流程 在本地hexo仓库新建博客文件 Hexo new &quot;new-blog-post-name&quot; 在本地疯狂编辑博客内容 new-blog-post-name.md 在本地部署查看效">
+  <meta name="description" content="最终目的流程 在本地hexo仓库新建博客文件 Hexo new &quot;new-blog-post-name&quot; 在本地疯狂编辑博客内容 new-blog-post-name.md 在本地部署查看效果 hexo s 然后访问 http:&#x2F;&#x2F;localhost:4000&#x2F; 查看最新文章在本地效果是否满意(此步骤可省略) push 本地 hexo 仓库到 github 上 远程 Travi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="本博客搭建:Hexo+GithubPages+TraviCI+pure">
 <meta property="og:url" content="https://altman-xu.github.io/2021/04/19/Build-Blog-Hexo-GithubPages-TraviCI-Pure/index.html">
 <meta property="og:site_name" content="Altman&#39;s Blog">
-<meta property="og:description" content="参考链接 Hexo 文档Travis CI 加 Hexo 实现自动构建部署 Github Pages 博客将 Hexo 部署到 GitHub PagesHexo 集成 Disqus 评论  最终目的流程 在本地hexo仓库新建博客文件 Hexo new &quot;new-blog-post-name&quot; 在本地疯狂编辑博客内容 new-blog-post-name.md 在本地部署查看效">
+<meta property="og:description" content="最终目的流程 在本地hexo仓库新建博客文件 Hexo new &quot;new-blog-post-name&quot; 在本地疯狂编辑博客内容 new-blog-post-name.md 在本地部署查看效果 hexo s 然后访问 http:&#x2F;&#x2F;localhost:4000&#x2F; 查看最新文章在本地效果是否满意(此步骤可省略) push 本地 hexo 仓库到 github 上 远程 Travi">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-04-19T03:50:43.000Z">
-<meta property="article:modified_time" content="2021-06-29T08:45:56.289Z">
+<meta property="article:modified_time" content="2021-06-29T08:51:31.629Z">
 <meta property="article:author" content="Altman">
 <meta property="article:tag" content="Hexo">
 <meta property="article:tag" content="TraviCI">
@@ -340,7 +340,7 @@
   <div class="slimContent">
     <nav id="toc" class="article-toc">
       <h3 class="toc-title">Catalogue</h3>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E7%9B%AE%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">最终目的流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E7%8E%AF%E5%A2%83%E8%AF%B4%E6%98%8E"><span class="toc-number">3.</span> <span class="toc-text">本地环境说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hexo-%E6%9C%AC%E5%9C%B0%E5%88%9D%E5%A7%8B%E5%8C%96%E7%AB%99%E7%82%B9"><span class="toc-number">4.</span> <span class="toc-text">Hexo 本地初始化站点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pure-%E7%AB%99%E7%82%B9%E4%B8%BB%E9%A2%98"><span class="toc-number">5.</span> <span class="toc-text">pure 站点主题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6%E8%AF%B4%E6%98%8E"><span class="toc-number">5.1.</span> <span class="toc-text">本地安装插件说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0pure%E4%B8%BB%E9%A2%98%E4%BF%AE%E6%94%B9"><span class="toc-number">5.2.</span> <span class="toc-text">本地pure主题修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%84%E8%AE%BA%E8%AE%BE%E7%BD%AE"><span class="toc-number">5.3.</span> <span class="toc-text">评论设置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GitHub-Pages"><span class="toc-number">6.</span> <span class="toc-text">GitHub Pages</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Travis-CI-%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E6%96%B9%E6%A1%88"><span class="toc-number">7.</span> <span class="toc-text">Travis CI 自动化部署方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E6%96%B9%E6%A1%88%E5%8F%A6%E5%A4%96%E7%9A%84%E9%80%89%E6%8B%A9-hexo-d"><span class="toc-number">8.</span> <span class="toc-text">部署方案另外的选择 hexo d</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E8%AF%B4%E6%98%8E"><span class="toc-number">9.</span> <span class="toc-text">问题说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">10.</span> <span class="toc-text">hexo 常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo-%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9"><span class="toc-number">11.</span> <span class="toc-text">hexo 模板修改</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E7%9B%AE%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">最终目的流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E7%8E%AF%E5%A2%83%E8%AF%B4%E6%98%8E"><span class="toc-number">2.</span> <span class="toc-text">本地环境说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hexo-%E6%9C%AC%E5%9C%B0%E5%88%9D%E5%A7%8B%E5%8C%96%E7%AB%99%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">Hexo 本地初始化站点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pure-%E7%AB%99%E7%82%B9%E4%B8%BB%E9%A2%98"><span class="toc-number">4.</span> <span class="toc-text">pure 站点主题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6%E8%AF%B4%E6%98%8E"><span class="toc-number">4.1.</span> <span class="toc-text">本地安装插件说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0pure%E4%B8%BB%E9%A2%98%E4%BF%AE%E6%94%B9"><span class="toc-number">4.2.</span> <span class="toc-text">本地pure主题修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%84%E8%AE%BA%E8%AE%BE%E7%BD%AE"><span class="toc-number">4.3.</span> <span class="toc-text">评论设置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GitHub-Pages"><span class="toc-number">5.</span> <span class="toc-text">GitHub Pages</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Travis-CI-%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E6%96%B9%E6%A1%88"><span class="toc-number">6.</span> <span class="toc-text">Travis CI 自动化部署方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E6%96%B9%E6%A1%88%E5%8F%A6%E5%A4%96%E7%9A%84%E9%80%89%E6%8B%A9-hexo-d"><span class="toc-number">7.</span> <span class="toc-text">部署方案另外的选择 hexo d</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E8%AF%B4%E6%98%8E"><span class="toc-number">8.</span> <span class="toc-text">问题说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">9.</span> <span class="toc-text">hexo 常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo-%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9"><span class="toc-number">10.</span> <span class="toc-text">hexo 模板修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E5%BA%8A"><span class="toc-number">11.</span> <span class="toc-text">图床</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">12.</span> <span class="toc-text">参考链接</span></a></li></ol>
     </nav>
   </div>
 </aside>
@@ -401,10 +401,7 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
-<p><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo 文档</a><br><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000021987832">Travis CI 加 Hexo 实现自动构建部署 Github Pages 博客</a><br><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/github-pages">将 Hexo 部署到 GitHub Pages</a><br><a target="_blank" rel="noopener" href="https://www.cylong.com/blog/2017/03/26/hexo-next-disqus/">Hexo 集成 Disqus 评论</a></p>
-</blockquote>
-<h2 id="最终目的流程"><a href="#最终目的流程" class="headerlink" title="最终目的流程"></a>最终目的流程</h2><ol>
+        <h2 id="最终目的流程"><a href="#最终目的流程" class="headerlink" title="最终目的流程"></a>最终目的流程</h2><ol>
 <li>在本地hexo仓库新建博客文件 <code>Hexo new &quot;new-blog-post-name&quot;</code></li>
 <li>在本地疯狂编辑博客内容 <code>new-blog-post-name.md</code></li>
 <li>在本地部署查看效果 <code>hexo s</code> 然后访问 <a target="_blank" rel="noopener" href="http://localhost:4000/">http://localhost:4000/</a> 查看最新文章在本地效果是否满意(此步骤可省略)</li>
@@ -413,7 +410,7 @@
 <li>访问浏览器查看到新内容</li>
 </ol>
 <h2 id="本地环境说明"><a href="#本地环境说明" class="headerlink" title="本地环境说明"></a>本地环境说明</h2><blockquote>
-<p>笔者本机电脑: macOS Catalina  Version 10.15.7</p>
+<p>本机电脑: macOS Catalina  Version 10.15.7</p>
 </blockquote>
 <ol>
 <li><p>Git</p>
@@ -491,6 +488,12 @@
 
 <h2 id="hexo-模板修改"><a href="#hexo-模板修改" class="headerlink" title="hexo 模板修改"></a>hexo 模板修改</h2><p>修改站点目录下的 /scaffolds/post.md , 改为如下内容, 优化 <code>hexo new &quot;postArticleName&quot;</code> 新创建文章的初始化内容</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:       ## tags 多个的话, 分多行显示</span><br><span class="line"><span class="bullet">    -</span> tag1<span class="emphasis">_PleaseDelete</span></span><br><span class="line"><span class="emphasis">    - tag2_</span>PleaseDelete</span><br><span class="line">categories: # 目录暂不启用, 现主要使用 tag区分</span><br><span class="line">toc: true   # 是否启用内容索引 (每个文字页面下面的 Catalogue/文章目录)</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"><span class="section">## </span></span><br><span class="line"></span><br><span class="line"><span class="section">##</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="图床"><a href="#图床" class="headerlink" title="图床"></a>图床</h2><p><a href="https://altman-xu.github.io/2021/04/20/Build-Blog-Picture/">本博客搭建:PicGo+GitHub作为图床</a></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo 文档</a><br><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000021987832">Travis CI 加 Hexo 实现自动构建部署 Github Pages 博客</a><br><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/github-pages">将 Hexo 部署到 GitHub Pages</a><br><a target="_blank" rel="noopener" href="https://www.cylong.com/blog/2017/03/26/hexo-next-disqus/">Hexo 集成 Disqus 评论</a></p>
+</blockquote>
+
       
     </div>
     <div class="article-footer">
