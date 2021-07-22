@@ -2,128 +2,184 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://altman-xu.github.io/2021/04/22/Kafka-Principle/</loc>
+    <loc>https://altman-xu.github.io/2021/07/21/Elasticsearch-Install/</loc>
     
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/2021/05/26/ALgorithm-Sort-QuickSort/</loc>
     
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/2021/05/19/Algorithm-Sort-InsertSort/</loc>
     
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://altman-xu.github.io/2021/05/26/Algorithm-Sort-MergeSort/</loc>
+    
+    <lastmod>2021-07-22</lastmod>
     
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/2021/05/18/Algorithm-Sort-SelectSort/</loc>
     
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://altman-xu.github.io/2021/06/30/Assembly-Instructions/</loc>
+    
+    <lastmod>2021-07-22</lastmod>
     
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/2021/04/19/Build-Blog-Hexo-GithubPages-TraviCI-Pure/</loc>
     
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/2021/04/20/Build-Blog-Picture/</loc>
     
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     
   </url>
   
   <url>
-    <loc>https://altman-xu.github.io/2021/06/23/Hbase/</loc>
+    <loc>https://altman-xu.github.io/2021/05/14/Digital-Certificate/</loc>
     
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     
   </url>
   
   <url>
-    <loc>https://altman-xu.github.io/2021/04/21/Kafka-Concept/</loc>
+    <loc>https://altman-xu.github.io/2021/07/21/Elasticsearch-API/</loc>
     
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://altman-xu.github.io/2021/07/21/Elasticsearch-AdvanceSearch/</loc>
+    
+    <lastmod>2021-07-22</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://altman-xu.github.io/2021/07/21/Elasticsearch-Concept/</loc>
+    
+    <lastmod>2021-07-22</lastmod>
     
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/2021/05/17/Algorithm-Sort-BubbleSort/</loc>
     
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://altman-xu.github.io/2021/06/23/Hbase/</loc>
+    
+    <lastmod>2021-07-22</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://altman-xu.github.io/2021/04/21/Kafka-Concept/</loc>
+    
+    <lastmod>2021-07-22</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://altman-xu.github.io/2021/04/22/Kafka-Principle/</loc>
+    
+    <lastmod>2021-07-22</lastmod>
     
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/2021/06/29/Kubernetes-On-MacOS-minikube/</loc>
     
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://altman-xu.github.io/2021/05/16/Switch-Two-Values/</loc>
+    
+    <lastmod>2021-07-22</lastmod>
     
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/2021/04/16/hello-world/</loc>
     
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/about/index.html</loc>
     
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/books/index.html</loc>
     
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/categories/index.html</loc>
     
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/links/index.html</loc>
     
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/repository/index.html</loc>
     
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/tags/index.html</loc>
     
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     
   </url>
   
 
   <url>
     <loc>https://altman-xu.github.io/</loc>
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -131,56 +187,77 @@
   
   <url>
     <loc>https://altman-xu.github.io/tags/Sort/</loc>
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/tags/Algorithm/</loc>
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://altman-xu.github.io/tags/assembly/</loc>
+    <lastmod>2021-07-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/tags/Hexo/</loc>
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/tags/TraviCI/</loc>
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/tags/Blog/</loc>
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://altman-xu.github.io/tags/Digital-Certificate/</loc>
+    <lastmod>2021-07-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://altman-xu.github.io/tags/Elasticsearch/</loc>
+    <lastmod>2021-07-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/tags/Hbase/</loc>
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/tags/Kafka/</loc>
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/tags/k8s/</loc>
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -189,14 +266,14 @@
   
   <url>
     <loc>https://altman-xu.github.io/categories/Algorithm/</loc>
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://altman-xu.github.io/categories/Blog/</loc>
-    <lastmod>2021-06-29</lastmod>
+    <lastmod>2021-07-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
