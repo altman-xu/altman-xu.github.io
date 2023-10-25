@@ -37,10 +37,11 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        name: Install npm dependency
+        name: Install npm
         continue-on-error: true
+        run: npm install                                    # 在根目录安装站点需要的依赖
+      - name: Install npm dependency                        # 安装依赖
         run: |
-          npm install                                       # 在根目录安装站点需要的依赖
           npm install -g hexo-cli                           # 在 CI 环境内安装 Hexo
           npm install hexo-wordcount --save                 # 安装插件 hexo-wordcount
           npm install hexo-generator-json-content --save    # 安装插件 hexo-generator-json-content
