@@ -30,10 +30,7 @@ jobs:
           cache-name: cache-node-modules
         with:
           # npm cache files are stored in `~/.npm` on Linux/macOS
-          # path: ~/.npm
-          path: |
-            node_modules
-            */*/node_modules
+          path: ~/.npm
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
@@ -41,7 +38,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Debug Cache Hit
-        run: echo "${{ steps.cache-npm.outputs.cache-hit }}"  # true 代表缓存命中 node_modules 没有变化; 而''代表没有命中，node_modules 发生变化
+        run: echo "${{ steps.cache-npm.outputs.cache-hit }}"  # true 代表缓存命中 ~/.npm 没有变化; 而''代表没有命中, ~/.npm 发生变化
 
       - name: Install npm                                   # 只有结果是''时才执行
         if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
@@ -49,7 +46,7 @@ jobs:
         run: npm install                                    # 在根目录安装站点需要的依赖
 
       - name: Install npm hexo                              # 安装依赖
-        if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        # if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}  # 缓存暂时不能对 hexo 相关生效, 奇怪
         run: |
           npm install hexo-cli -g                           # 在 CI 环境内安装 Hexo
           npm install hexo-wordcount --save                 # 安装插件 hexo-wordcount
