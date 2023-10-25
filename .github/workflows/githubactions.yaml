@@ -37,10 +37,8 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        name: List the state of node modules
+        name: Install npm dependency
         continue-on-error: true
-        run: npm list
-      - name: Install Dependency           # 安装依赖
         run: |
           npm install                                       # 在根目录安装站点需要的依赖
           npm install -g hexo-cli                           # 在 CI 环境内安装 Hexo
