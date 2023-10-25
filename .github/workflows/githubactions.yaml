@@ -51,8 +51,8 @@ jobs:
           hexo clean
           hexo generate
       - name: deploy to git
-          run: |
-            hexo deploy
+        run: |
+          hexo deploy
       # - name: hexo Generate
       #   run: |
       #     hexo generate
