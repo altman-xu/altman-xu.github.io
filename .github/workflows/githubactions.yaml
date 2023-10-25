@@ -100,4 +100,4 @@ jobs:
       #     echo "${{ steps.deploy.outputs.notify }}"
 
 ## ssh-keygen -t rsa -b 4096 -C "xuzhihua1107@gmail.com" -f gh-pages -N ""
-## ssh-keygen -t ed25519 -C "xuzhihua1107@gmail.com"
+## ssh-keygen -t ed25519 -C "xuzhihua1107@gmail.com" 
