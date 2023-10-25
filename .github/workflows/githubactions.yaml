@@ -36,13 +36,17 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        name: Install npm
+
+      - name: Debug Cache Hit
+        run: echo "${{ steps.cache-npm.outputs.cache-hit }}"  # true代表缓存命中，node_modules没有变化，而''代表没有命中，node_modules发生变化
+
+      - name: Install npm                                   # 只有结果是''时才执行
+        if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         continue-on-error: true
         run: npm install                                    # 在根目录安装站点需要的依赖
-      - name: Install npm dependency                        # 安装依赖
+      - name: Install npm hexo                              # 安装依赖
         run: |
-          npm install -g hexo-cli                           # 在 CI 环境内安装 Hexo
+          npm install hexo-cli -g                           # 在 CI 环境内安装 Hexo
           npm install hexo-wordcount --save                 # 安装插件 hexo-wordcount
           npm install hexo-generator-json-content --save    # 安装插件 hexo-generator-json-content
           npm install hexo-generator-feed --save            # 安装插件 hexo-generator-feed
