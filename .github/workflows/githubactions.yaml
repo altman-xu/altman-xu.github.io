@@ -3,8 +3,6 @@ name: githubactions # yml文件名
 env:
   GIT_USER: altman-xu
   GIT_EMAIL: xuzhihua1107@gmail.com
-  THEME_REPO: sanonz/hexo-theme-concise
-  THEME_BRANCH: master
   DEPLOY_REPO: altman-xu/altman-xu.github.io
   DEPLOY_BRANCH: master 
 
@@ -35,6 +33,7 @@ jobs:
           npm install hexo-generator-feed --save            # 安装插件 hexo-generator-feed
           npm install hexo-generator-sitemap --save         # 安装插件 hexo-generator-sitemap
           npm install hexo-generator-baidu-sitemap --save   # 安装插件 hexo-generator-baidu-sitemap
+          npm install hexo-deployer-git --save              # 安装插件 用来执行 hexo deploy
           npm install 
       - name: Setup Git
         run: |

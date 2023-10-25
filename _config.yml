@@ -102,6 +102,6 @@ theme: pure
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: 'git'
+  type: git
   repo: git@github.com:altman-xu/altman-xu.github.io.git
   branch: master
