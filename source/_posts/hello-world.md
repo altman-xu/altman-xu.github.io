@@ -2,6 +2,8 @@
 title: Hello World
 date: 2021-04-16 09:02:29
 toc: true # 是否启用内容索引 (每个文字页面下面的 Catalogue/文章目录)
+categories:
+  - Blog
 ---
 Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
 
