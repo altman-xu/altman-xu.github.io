@@ -31,7 +31,9 @@ jobs:
         with:
           # npm cache files are stored in `~/.npm` on Linux/macOS
           # path: ~/.npm
-          path: node_modules
+          path: |
+            node_modules
+            */*/node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
@@ -45,6 +47,7 @@ jobs:
         if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         continue-on-error: true
         run: npm install                                    # 在根目录安装站点需要的依赖
+
       - name: Install npm hexo                              # 安装依赖
         if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         run: |
@@ -97,4 +100,4 @@ jobs:
       #     echo "${{ steps.deploy.outputs.notify }}"
 
 ## ssh-keygen -t rsa -b 4096 -C "xuzhihua1107@gmail.com" -f gh-pages -N ""
-## ssh-keygen -t ed25519 -C "xuzhihua1107@gmail.com" 
+## ssh-keygen -t ed25519 -C "xuzhihua1107@gmail.com"
