@@ -42,7 +42,7 @@ jobs:
       #     ls -alhR
       #     # node ./coupons.js  # 要运行的js脚本，放在根目录下
       - name: Deploy
-        user: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v3
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           user_name: altman-xu
