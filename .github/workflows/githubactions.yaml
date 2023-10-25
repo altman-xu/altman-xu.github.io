@@ -50,7 +50,6 @@ jobs:
           npm install hexo-generator-sitemap --save         # 安装插件 hexo-generator-sitemap
           npm install hexo-generator-baidu-sitemap --save   # 安装插件 hexo-generator-baidu-sitemap
           npm install hexo-deployer-git --save              # 安装插件 用来执行 hexo deploy
-          npm install 
       - name: Setup Git                   # 设置 git 环境变量
         run: |
           git config --global user.name $GIT_USER
@@ -58,7 +57,7 @@ jobs:
       - name: Setup SSH Key               # 设置 sshkey
         run: |
           mkdir -p ~/.ssh
-          cat "${{ secrets.SSH_DEPLOY_KEY }}" > ~/.ssh/id_ed25519
+          echo "${{ secrets.SSH_DEPLOY_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan github.com >> ~/.ssh/known_hosts
       - name: hexo generate
