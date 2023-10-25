@@ -1,0 +1,40 @@
+name: githubactions # yml文件名
+
+env:
+  GIT_USER: altman-xu
+  GIT_EMAIL: xuzhihua1107@gmail.com
+  THEME_REPO: sanonz/hexo-theme-concise
+  THEME_BRANCH: master
+  DEPLOY_REPO: sanonz/sanonz.github.io
+  DEPLOY_BRANCH: master 
+
+on:
+  push:
+    branches:
+      - source    # 仅当推送 source 分支时才运行工作流程
+ 
+
+jobs:
+  build-and-deploy: # 任务名
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2  #采用 source 分支下的
+        with: 
+          ref: source
+      - name: install node
+        uses: actions/setup-node@v2  #安装node.js
+        with:
+          node-version: '10'
+      - name: Install Dependency       
+        run: |
+          npm install                                       # 在根目录安装站点需要的依赖
+          npm install -g hexo-cli                           # 在 CI 环境内安装 Hexo
+          npm install hexo-wordcount --save                 # 安装插件 hexo-wordcount
+          npm install hexo-generator-json-content --save    # 安装插件 hexo-generator-json-content
+          npm install hexo-generator-feed --save            # 安装插件 hexo-generator-feed
+          npm install hexo-generator-sitemap --save         # 安装插件 hexo-generator-sitemap
+          npm install hexo-generator-baidu-sitemap --save   # 安装插件 hexo-generator-baidu-sitemap
+          npm install 
+          hexo generate
+          # node ./coupons.js  # 要运行的js脚本，放在根目录下
