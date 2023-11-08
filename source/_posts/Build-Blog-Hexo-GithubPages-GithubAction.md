@@ -42,11 +42,11 @@ ssh-keygen -t ed25519 -C "xuzhihua1107@gmail.com"
 
 在博客仓库的 Settings -> Secrets -> Actions 中添加 SSH 私钥, 内容为刚刚生成的 id_ed25519 文件的秘钥值, 命名为 SSH_DEPLOY_KEY
 
-![20231108-gitaction-1](https://raw.githubusercontent.com/altman-xu/Image/master/20231108-gitaction-1.png)
+![20231108-gitaction-1](https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/20231108-gitaction-1.png)
 
 在部署仓库的 Settings -> Deploy keys 中添加 SSH 公钥, 内容为刚刚生成的 id_ed25519.pub 文件的公钥值, 命名为 public key of SSH_DEPLOY_KEY 注意勾选 Allow write access。
 
-![20231108-gitaction-2](https://raw.githubusercontent.com/altman-xu/Image/master/20231108-gitaction-2.png)
+![20231108-gitaction-2](https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/20231108-gitaction-2.png)
 
 > 注: 后续的 workflow 会使用 SSH_DEPLOY_KEY 公钥值来部署
 
@@ -148,4 +148,4 @@ jobs:
 
 每次在 source 分支, 编写新博客 md 文件, 提交到 git 远程后，都会触发 cicd 流程, 如下图所示, 可以点击进去查看 cicd 执行的每个步骤
 
-![20231108-gitaction-3](https://raw.githubusercontent.com/altman-xu/Image/master/20231108-gitaction-3.png)
+![20231108-gitaction-3](https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/20231108-gitaction-3.png)

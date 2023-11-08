@@ -23,7 +23,7 @@ categories:
 Note: 名字可以随便填写，如 Image、Photo   
 Select scopes: 选择 repo 即可  
 然后点击按钮 Generate token 在跳转出来的页面， 将 Token 值 保存起来，后面 配置 PicGo 时用到  
-<img src="https://raw.githubusercontent.com/altman-xu/Image/master/GitHub_New_personal_access_token_1.png" width="50%" height="50%">
+<img src="https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/GitHub_New_personal_access_token_1.png" width="50%" height="50%">
 
 ## PicGo 使用
 
@@ -35,7 +35,7 @@ Select scopes: 选择 repo 即可
 2. 配置 PicGo  
   打开 PicGo 软件， Mac 屏幕上方状态栏会出现 PicGo 小图标， `右击图标->打开详细窗口->图床设置->GitHub图床` (如下截图所示界面)  
   设定Token 一栏中填入 上面步骤生成的 Token 值
-  <img src="https://raw.githubusercontent.com/altman-xu/Image/master/PicGo%20setting.png" width="50%" height="50%">
+  <img src="https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/PicGo%20setting.png" width="50%" height="50%">
 
 
 

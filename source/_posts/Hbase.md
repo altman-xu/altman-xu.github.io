@@ -24,7 +24,7 @@ hbase shell  ## 此命令如果无法执行，则进入 /usr/local/Cellar/hbase/
 
 查看版本信息截图如下:
 
-![](https://raw.githubusercontent.com/altman-xu/Image/master/20210623111930.png)
+![](https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/20210623111930.png)
 
 ## MacOS 连接远程 hbase 集群
 

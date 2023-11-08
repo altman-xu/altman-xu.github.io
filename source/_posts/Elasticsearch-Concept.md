@@ -58,7 +58,7 @@ Elasticsearch提供了索引分片功能。创建索引时，可以定义所需�
 每个Elasticsearch分片都是一个Lucene索引。Lucene索引中的文档数量有限制，在LUCENE-5843中，极限是2,147,483,519(= 整数的最大值 – 128)个文档。可以使用 `curl -XGET "localhost:9200/_cat/shards"` API监视分片大小。
 
 ## 流程图
-![es流程图](https://raw.githubusercontent.com/altman-xu/Image/master/20210721104845.png)
+![es流程图](https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/20210721104845.png)
 
 ## 参考资料
 [Elasticsearch 基本概念](https://www.qikegu.com/docs/3047)

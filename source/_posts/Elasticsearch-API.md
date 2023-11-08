@@ -13,14 +13,14 @@ categories:
 ```zsh
 GET /_cat/health?v
 ```
-![](https://raw.githubusercontent.com/altman-xu/Image/master/20210721155158.png)
+![](https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/20210721155158.png)
 
 ### curl访问API
 在 terminal 中执行
 ```zsh
 curl -XGET "localhost:9200/_cat/shards?v"
 ```
-![](https://raw.githubusercontent.com/altman-xu/Image/master/20210721155333.png)
+![](https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/20210721155333.png)
 
 ## 集群操作
 ### 获取健康信息
