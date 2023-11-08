@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Elasticsearch-API | Altman&#39;s Blog</title>
+  <meta name="description" content="命令形式API格式在 kibana 中执行 1GET &#x2F;_cat&#x2F;health?v  curl访问API在 terminal 中执行 1curl -XGET &quot;localhost:9200&#x2F;_cat&#x2F;shards?v&quot;  集群操作获取健康信息123## outputip        heap.percent ram.percent cpu load_1m load_5m lo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch-API">
+<meta property="og:url" content="https://altman-xu.github.io/2021/07/21/Elasticsearch-API/index.html">
+<meta property="og:site_name" content="Altman&#39;s Blog">
+<meta property="og:description" content="命令形式API格式在 kibana 中执行 1GET &#x2F;_cat&#x2F;health?v  curl访问API在 terminal 中执行 1curl -XGET &quot;localhost:9200&#x2F;_cat&#x2F;shards?v&quot;  集群操作获取健康信息123## outputip        heap.percent ram.percent cpu load_1m load_5m lo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/20210721155158.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/20210721155333.png">
+<meta property="article:published_time" content="2021-07-21T03:00:35.000Z">
+<meta property="article:modified_time" content="2023-11-08T10:00:20.896Z">
+<meta property="article:author" content="Altman">
+<meta property="article:tag" content="Elasticsearch">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/20210721155158.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://altman-xu.github.io/2021/07/21/Elasticsearch-API/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Altman&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/altman-xu" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Altman-xu</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Backend Engineer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/altman-xu" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/AltmanXu2013" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>This is Altman-xu's Blog!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algorithm/" rel="tag">Algorithm</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/" rel="tag">Blog</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Digital-Certificate/" rel="tag">Digital-Certificate</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Elasticsearch/" rel="tag">Elasticsearch</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/" rel="tag">Hbase</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kafka/" rel="tag">Kafka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/" rel="tag">Life</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sort/" rel="tag">Sort</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TraviCI/" rel="tag">TraviCI</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/assembly/" rel="tag">assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Algorithm/" style="font-size: 14px;">Algorithm</a> <a href="/tags/Blog/" style="font-size: 13.75px;">Blog</a> <a href="/tags/Digital-Certificate/" style="font-size: 13px;">Digital-Certificate</a> <a href="/tags/Elasticsearch/" style="font-size: 13.5px;">Elasticsearch</a> <a href="/tags/Hbase/" style="font-size: 13px;">Hbase</a> <a href="/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/tags/Kafka/" style="font-size: 13.25px;">Kafka</a> <a href="/tags/Life/" style="font-size: 13px;">Life</a> <a href="/tags/Sort/" style="font-size: 13.75px;">Sort</a> <a href="/tags/TraviCI/" style="font-size: 13px;">TraviCI</a> <a href="/tags/assembly/" style="font-size: 13px;">assembly</a> <a href="/tags/k8s/" style="font-size: 13px;">k8s</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Blog/">Blog</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/11/08/Build-Blog-Hexo-GithubPages-GithubAction/" class="title">本博客搭建(v2):Hexo-GithubPages-GithubAction</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-11-08T08:29:26.000Z" itemprop="datePublished">2023-11-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Life/">Life</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/11/07/Life-30/" class="title">Life-30</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-11-07T09:51:00.000Z" itemprop="datePublished">2023-11-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Blog/">Blog</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/10/25/Blog-Restart-2023/" class="title">博客重启</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-10-25T08:10:10.000Z" itemprop="datePublished">2023-10-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/21/Elasticsearch-AdvanceSearch/" class="title">Elasticsearch-AdvanceSearch</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-21T08:09:32.000Z" itemprop="datePublished">2021-07-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/21/Elasticsearch-API/" class="title">Elasticsearch-API</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-21T03:00:35.000Z" itemprop="datePublished">2021-07-21</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E5%BD%A2%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">命令形式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#API%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">API格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#curl%E8%AE%BF%E9%97%AEAPI"><span class="toc-number">1.2.</span> <span class="toc-text">curl访问API</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E6%93%8D%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">集群操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%81%A5%E5%BA%B7%E4%BF%A1%E6%81%AF"><span class="toc-number">2.1.</span> <span class="toc-text">获取健康信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%88%86%E7%89%87%E4%BF%A1%E6%81%AF"><span class="toc-number">2.2.</span> <span class="toc-text">获取分片信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E8%8A%82%E7%82%B9%E4%BF%A1%E6%81%AF"><span class="toc-number">2.3.</span> <span class="toc-text">获取节点信息</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E6%93%8D%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text">索引操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="toc-number">3.1.</span> <span class="toc-text">创建索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E7%B4%A2%E5%BC%95"><span class="toc-number">3.2.</span> <span class="toc-text">查询索引</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E7%B4%A2%E5%BC%95"><span class="toc-number">3.3.</span> <span class="toc-text">删除索引</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E6%93%8D%E4%BD%9C"><span class="toc-number">4.</span> <span class="toc-text">文档操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%96%87%E6%A1%A3"><span class="toc-number">4.1.</span> <span class="toc-text">创建文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E6%96%87%E6%A1%A3"><span class="toc-number">4.2.</span> <span class="toc-text">查询文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%96%87%E6%A1%A3"><span class="toc-number">4.3.</span> <span class="toc-text">更新文档</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%95%B0%E6%8D%AE"><span class="toc-number">4.3.1.</span> <span class="toc-text">修改数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E5%AD%97%E6%AE%B5"><span class="toc-number">4.3.2.</span> <span class="toc-text">添加字段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%84%9A%E6%9C%AC%E6%89%A7%E8%A1%8C"><span class="toc-number">4.3.3.</span> <span class="toc-text">脚本执行</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%96%87%E6%A1%A3"><span class="toc-number">4.4.</span> <span class="toc-text">删除文档</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%B9%E5%A4%84%E7%90%86"><span class="toc-number">5.</span> <span class="toc-text">批处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E4%B8%80%E4%B8%AA%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C%E4%B8%AD-%E5%88%9B%E5%BB%BA%E4%B8%A4%E4%B8%AA%E6%96%87%E6%A1%A3"><span class="toc-number">5.1.</span> <span class="toc-text">在一个批量操作中,创建两个文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E4%B8%80%E4%B8%AA%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C%E4%B8%AD-%E6%9B%B4%E6%96%B0%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%96%87%E6%A1%A3-%E5%88%A0%E9%99%A4%E7%AC%AC%E4%BA%8C%E4%B8%AA%E6%96%87%E6%A1%A3"><span class="toc-number">5.2.</span> <span class="toc-text">在一个批量操作中,更新第一个文档,删除第二个文档</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">6.</span> <span class="toc-text">参考资料</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Elasticsearch-API" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Elasticsearch-API
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/07/21/Elasticsearch-API/" class="article-date">
+	  <time datetime="2021-07-21T03:00:35.000Z" itemprop="datePublished">2021-07-21</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Elasticsearch/" rel="tag">Elasticsearch</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/07/21/Elasticsearch-API/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 1.9k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 10(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="命令形式"><a href="#命令形式" class="headerlink" title="命令形式"></a>命令形式</h2><h3 id="API格式"><a href="#API格式" class="headerlink" title="API格式"></a>API格式</h3><p>在 kibana 中执行</p>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /_cat/health?v</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/20210721155158.png"></p>
+<h3 id="curl访问API"><a href="#curl访问API" class="headerlink" title="curl访问API"></a>curl访问API</h3><p>在 terminal 中执行</p>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET <span class="string">&quot;localhost:9200/_cat/shards?v&quot;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/20210721155333.png"></p>
+<h2 id="集群操作"><a href="#集群操作" class="headerlink" title="集群操作"></a>集群操作</h2><h3 id="获取健康信息"><a href="#获取健康信息" class="headerlink" title="获取健康信息"></a>获取健康信息</h3><figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## output</span></span><br><span class="line">ip        heap.percent ram.percent cpu load_1m load_5m load_15m node.role master name</span><br><span class="line">127.0.0.1           59          97   7    1.98                  dimr      *      C02CF1LYMD6Q</span><br></pre></td></tr></table></figure>
+<h3 id="获取分片信息"><a href="#获取分片信息" class="headerlink" title="获取分片信息"></a>获取分片信息</h3><figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET <span class="string">&quot;localhost:9200/_cat/shards?v&quot;</span></span><br><span class="line"><span class="comment">## output</span></span><br><span class="line">index    shard prirep state      docs store ip        node</span><br><span class="line">customer 0     p      STARTED       0  208b 127.0.0.1 C02CF1LYMD6Q</span><br><span class="line">customer 0     r      UNASSIGNED</span><br></pre></td></tr></table></figure>
+
+<h3 id="获取节点信息"><a href="#获取节点信息" class="headerlink" title="获取节点信息"></a>获取节点信息</h3><figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET <span class="string">&quot;localhost:9200/_cat/nodes?v&quot;</span></span><br><span class="line"><span class="comment">## output</span></span><br><span class="line">epoch      timestamp cluster            status node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent</span><br><span class="line">1626836684 03:04:44  elasticsearch_brew yellow          1         1      2   2    0    0        1             0                  -                 66.7%</span><br></pre></td></tr></table></figure>
+
+<h2 id="索引操作"><a href="#索引操作" class="headerlink" title="索引操作"></a>索引操作</h2><blockquote>
+<p>命令末尾追加pretty,可以漂亮地打印JSON响应(如果有的话)</p>
+</blockquote>
+<h3 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h3><figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT <span class="string">&#x27;localhost:9200/customer?pretty&#x27;</span></span><br><span class="line"><span class="comment">## output</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;acknowledged&quot;</span> : <span class="literal">true</span>,</span><br><span class="line">  <span class="string">&quot;shards_acknowledged&quot;</span> : <span class="literal">true</span>,</span><br><span class="line">  <span class="string">&quot;index&quot;</span> : <span class="string">&quot;customer&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="查询索引"><a href="#查询索引" class="headerlink" title="查询索引"></a>查询索引</h3><blockquote>
+<p>显示所有索引信息, 若索引太多，建议重定向到文件中，避免终端显示不完整 <code>curl -XGET &#39;localhost:9200/_cat/indices?v&#39; &gt; tmp.log</code></p>
+</blockquote>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET <span class="string">&#x27;localhost:9200/_cat/indices?v&#x27;</span></span><br><span class="line"><span class="comment">## output</span></span><br><span class="line">health status index    uuid                   pri rep docs.count docs.deleted store.size pri.store.size</span><br><span class="line">yellow open   customer 1ROsx5JQTluas2hEGLh0Qg   1   1          0            0       208b           208b</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除索引"><a href="#删除索引" class="headerlink" title="删除索引"></a>删除索引</h3><figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl -XDELETE <span class="string">&#x27;localhost:9200/customer?pretty&#x27;</span></span><br><span class="line"><span class="comment">## output</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;acknowledged&quot;</span> : <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="文档操作"><a href="#文档操作" class="headerlink" title="文档操作"></a>文档操作</h2><p>Elasticsearch并不要求，先要有索引，才能将文档编入索引。创建文档时，如果指定索引不存在，将自动创建</p>
+<h3 id="创建文档"><a href="#创建文档" class="headerlink" title="创建文档"></a>创建文档</h3><p>将一个客户文档放到 customer 索引中, ID 为1</p>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##API:</span></span><br><span class="line">PUT /customer/_doc/1?pretty</span><br><span class="line">&#123;<span class="string">&quot;name&quot;</span>:<span class="string">&quot;John Doe&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">## curl命令访问API:</span></span><br><span class="line">curl -XPUT <span class="string">&quot;localhost:9200/customer/_doc/1?pretty&quot;</span> -H <span class="string">&#x27;Content-Type: application/json&#x27;</span> -d<span class="string">&#x27;</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">  &quot;name&quot;: &quot;John Doe&quot;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">&#x27;</span></span><br><span class="line"><span class="comment">## output</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;_index&quot;</span> : <span class="string">&quot;customer&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_type&quot;</span> : <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_id&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_version&quot;</span> : 1,</span><br><span class="line">  <span class="string">&quot;result&quot;</span> : <span class="string">&quot;created&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_shards&quot;</span> : &#123;</span><br><span class="line">    <span class="string">&quot;total&quot;</span> : 2,</span><br><span class="line">    <span class="string">&quot;successful&quot;</span> : 1,</span><br><span class="line">    <span class="string">&quot;failed&quot;</span> : 0</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;_seq_no&quot;</span> : 0,</span><br><span class="line">  <span class="string">&quot;_primary_term&quot;</span> : 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="查询文档"><a href="#查询文档" class="headerlink" title="查询文档"></a>查询文档</h3><p>在 customer 索引中查询 文档 id 为 1 的数据</p>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET <span class="string">&quot;localhost:9200/customer/_doc/1?pretty&quot;</span></span><br><span class="line"><span class="comment">## output</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;_index&quot;</span> : <span class="string">&quot;customer&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_type&quot;</span> : <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_id&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_version&quot;</span> : 1,</span><br><span class="line">  <span class="string">&quot;_seq_no&quot;</span> : 0,</span><br><span class="line">  <span class="string">&quot;_primary_term&quot;</span> : 1,</span><br><span class="line">  <span class="string">&quot;found&quot;</span> : <span class="literal">true</span>,</span><br><span class="line">  <span class="string">&quot;_source&quot;</span> : &#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span> : <span class="string">&quot;John Doe&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="更新文档"><a href="#更新文档" class="headerlink" title="更新文档"></a>更新文档</h3><blockquote>
+<p>Elasticsearch实际上并没有在底层执行就地更新，而是先删除旧文档，再添加新文档</p>
+</blockquote>
+<h4 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h4><p>将 customer 索引中文档 ID 为 1 的 name 更改为 “Jane Doe”</p>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;localhost:9200/customer/_update/1?pretty&quot;</span> -H <span class="string">&#x27;Content-Type: application/json&#x27;</span> -d<span class="string">&#x27;</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">  &quot;doc&quot;: &#123;&quot;name&quot;: &quot;Jane Doe&quot;&#125;</span></span><br><span class="line"><span class="string">&#125;&#x27;</span></span><br><span class="line"><span class="comment">## output</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;_index&quot;</span> : <span class="string">&quot;customer&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_type&quot;</span> : <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_id&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_version&quot;</span> : 2,</span><br><span class="line">  <span class="string">&quot;result&quot;</span> : <span class="string">&quot;updated&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_shards&quot;</span> : &#123;</span><br><span class="line">    <span class="string">&quot;total&quot;</span> : 2,</span><br><span class="line">    <span class="string">&quot;successful&quot;</span> : 1,</span><br><span class="line">    <span class="string">&quot;failed&quot;</span> : 0</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;_seq_no&quot;</span> : 1,</span><br><span class="line">  <span class="string">&quot;_primary_term&quot;</span> : 1</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">## 再次查询，可以看到数据已经修改了</span></span><br><span class="line">curl -XGET <span class="string">&quot;localhost:9200/customer/_doc/1?pretty&quot;</span></span><br><span class="line"><span class="comment">## output</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;_index&quot;</span> : <span class="string">&quot;customer&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_type&quot;</span> : <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_id&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_version&quot;</span> : 2,</span><br><span class="line">  <span class="string">&quot;_seq_no&quot;</span> : 1,</span><br><span class="line">  <span class="string">&quot;_primary_term&quot;</span> : 1,</span><br><span class="line">  <span class="string">&quot;found&quot;</span> : <span class="literal">true</span>,</span><br><span class="line">  <span class="string">&quot;_source&quot;</span> : &#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span> : <span class="string">&quot;Jane Doe&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="添加字段"><a href="#添加字段" class="headerlink" title="添加字段"></a>添加字段</h4><p>把文档(ID为1)中的name字段更改为 “Altman”，再添加一个年龄字段: age</p>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;localhost:9200/customer/_update/1?pretty&quot;</span> -H <span class="string">&#x27;Content-Type: application/json&#x27;</span> -d<span class="string">&#x27;</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">  &quot;doc&quot;: &#123;&quot;name&quot;: &quot;Altman&quot;, &quot;age&quot;: 18&#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">&#x27;</span></span><br><span class="line"><span class="comment">## output</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;_index&quot;</span> : <span class="string">&quot;customer&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_type&quot;</span> : <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_id&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_version&quot;</span> : 3,</span><br><span class="line">  <span class="string">&quot;result&quot;</span> : <span class="string">&quot;updated&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_shards&quot;</span> : &#123;</span><br><span class="line">    <span class="string">&quot;total&quot;</span> : 2,</span><br><span class="line">    <span class="string">&quot;successful&quot;</span> : 1,</span><br><span class="line">    <span class="string">&quot;failed&quot;</span> : 0</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;_seq_no&quot;</span> : 2,</span><br><span class="line">  <span class="string">&quot;_primary_term&quot;</span> : 1</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">## 再次查询，可以看到数据已经修改了</span></span><br><span class="line">curl -XGET <span class="string">&quot;localhost:9200/customer/_doc/1?pretty&quot;</span></span><br><span class="line"><span class="comment">## output</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;_index&quot;</span> : <span class="string">&quot;customer&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_type&quot;</span> : <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_id&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_version&quot;</span> : 3,</span><br><span class="line">  <span class="string">&quot;_seq_no&quot;</span> : 2,</span><br><span class="line">  <span class="string">&quot;_primary_term&quot;</span> : 1,</span><br><span class="line">  <span class="string">&quot;found&quot;</span> : <span class="literal">true</span>,</span><br><span class="line">  <span class="string">&quot;_source&quot;</span> : &#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span> : <span class="string">&quot;Altman&quot;</span>,</span><br><span class="line">    <span class="string">&quot;age&quot;</span> : 18</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="脚本执行"><a href="#脚本执行" class="headerlink" title="脚本执行"></a>脚本执行</h4><p>使用脚本将年龄增加5岁</p>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&quot;localhost:9200/customer/_update/1?pretty&quot;</span> -H <span class="string">&#x27;Content-Type: application/json&#x27;</span> -d<span class="string">&#x27;</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">  &quot;script&quot; : &quot;ctx._source.age += 5&quot;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">&#x27;</span></span><br><span class="line"><span class="comment">## output</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;_index&quot;</span> : <span class="string">&quot;customer&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_type&quot;</span> : <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_id&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_version&quot;</span> : 4,</span><br><span class="line">  <span class="string">&quot;result&quot;</span> : <span class="string">&quot;updated&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_shards&quot;</span> : &#123;</span><br><span class="line">    <span class="string">&quot;total&quot;</span> : 2,</span><br><span class="line">    <span class="string">&quot;successful&quot;</span> : 1,</span><br><span class="line">    <span class="string">&quot;failed&quot;</span> : 0</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;_seq_no&quot;</span> : 3,</span><br><span class="line">  <span class="string">&quot;_primary_term&quot;</span> : 1</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">## 再次查询，可以看到数据已经修改了</span></span><br><span class="line">curl -XGET <span class="string">&quot;localhost:9200/customer/_doc/1?pretty&quot;</span></span><br><span class="line"><span class="comment">## output</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;_index&quot;</span> : <span class="string">&quot;customer&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_type&quot;</span> : <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_id&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_version&quot;</span> : 4,</span><br><span class="line">  <span class="string">&quot;_seq_no&quot;</span> : 3,</span><br><span class="line">  <span class="string">&quot;_primary_term&quot;</span> : 1,</span><br><span class="line">  <span class="string">&quot;found&quot;</span> : <span class="literal">true</span>,</span><br><span class="line">  <span class="string">&quot;_source&quot;</span> : &#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span> : <span class="string">&quot;Altman&quot;</span>,</span><br><span class="line">    <span class="string">&quot;age&quot;</span> : 23</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除文档"><a href="#删除文档" class="headerlink" title="删除文档"></a>删除文档</h3><p>删除文档 ID 为 2 的数据，注 该 ID 不存在</p>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">curl -XDELETE <span class="string">&quot;localhost:9200/customer/_doc/2?pretty&quot;</span></span><br><span class="line"><span class="comment">## output</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;_index&quot;</span> : <span class="string">&quot;customer&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_type&quot;</span> : <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_id&quot;</span> : <span class="string">&quot;2&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_version&quot;</span> : 1,</span><br><span class="line">  <span class="string">&quot;result&quot;</span> : <span class="string">&quot;not_found&quot;</span>,</span><br><span class="line">  <span class="string">&quot;_shards&quot;</span> : &#123;</span><br><span class="line">    <span class="string">&quot;total&quot;</span> : 2,</span><br><span class="line">    <span class="string">&quot;successful&quot;</span> : 1,</span><br><span class="line">    <span class="string">&quot;failed&quot;</span> : 0</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;_seq_no&quot;</span> : 4,</span><br><span class="line">  <span class="string">&quot;_primary_term&quot;</span> : 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="批处理"><a href="#批处理" class="headerlink" title="批处理"></a>批处理</h2><p>先将 customer 索引删除，重建，然后执行下面</p>
+<blockquote>
+<p>某个操作失败不会导致批量API执行中断，剩下的操作将继续执行。当_bulk API返回时，它将为每个操作提供一个状态(与发送操作的顺序相同)，以便检查某个特定操作是否失败。</p>
+</blockquote>
+<h3 id="在一个批量操作中-创建两个文档"><a href="#在一个批量操作中-创建两个文档" class="headerlink" title="在一个批量操作中,创建两个文档"></a>在一个批量操作中,创建两个文档</h3><figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&#x27;localhost:9200/customer/_bulk?pretty&#x27;</span> -H <span class="string">&#x27;Content-Type: application/json&#x27;</span> -d <span class="string">&#x27;</span></span><br><span class="line"><span class="string">&#123;&quot;index&quot;:&#123;&quot;_id&quot;:&quot;1&quot;&#125;&#125;</span></span><br><span class="line"><span class="string">&#123;&quot;name&quot;: &quot;John, Doe&quot;&#125;</span></span><br><span class="line"><span class="string">&#123;&quot;index&quot;:&#123;&quot;_id&quot;:&quot;2&quot;&#125;&#125;</span></span><br><span class="line"><span class="string">&#123;&quot;name&quot;: &quot;Jane, Doe&quot;&#125;</span></span><br><span class="line"><span class="string">&#x27;</span></span><br><span class="line"><span class="comment">## output</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;took&quot;</span> : 231,</span><br><span class="line">  <span class="string">&quot;errors&quot;</span> : <span class="literal">false</span>,</span><br><span class="line">  <span class="string">&quot;items&quot;</span> : [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;index&quot;</span> : &#123;</span><br><span class="line">        <span class="string">&quot;_index&quot;</span> : <span class="string">&quot;customer&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_type&quot;</span> : <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_id&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_version&quot;</span> : 1,</span><br><span class="line">        <span class="string">&quot;result&quot;</span> : <span class="string">&quot;created&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_shards&quot;</span> : &#123;</span><br><span class="line">          <span class="string">&quot;total&quot;</span> : 2,</span><br><span class="line">          <span class="string">&quot;successful&quot;</span> : 1,</span><br><span class="line">          <span class="string">&quot;failed&quot;</span> : 0</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">&quot;_seq_no&quot;</span> : 0,</span><br><span class="line">        <span class="string">&quot;_primary_term&quot;</span> : 1,</span><br><span class="line">        <span class="string">&quot;status&quot;</span> : 201</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;index&quot;</span> : &#123;</span><br><span class="line">        <span class="string">&quot;_index&quot;</span> : <span class="string">&quot;customer&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_type&quot;</span> : <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_id&quot;</span> : <span class="string">&quot;2&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_version&quot;</span> : 1,</span><br><span class="line">        <span class="string">&quot;result&quot;</span> : <span class="string">&quot;created&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_shards&quot;</span> : &#123;</span><br><span class="line">          <span class="string">&quot;total&quot;</span> : 2,</span><br><span class="line">          <span class="string">&quot;successful&quot;</span> : 1,</span><br><span class="line">          <span class="string">&quot;failed&quot;</span> : 0</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">&quot;_seq_no&quot;</span> : 1,</span><br><span class="line">        <span class="string">&quot;_primary_term&quot;</span> : 1,</span><br><span class="line">        <span class="string">&quot;status&quot;</span> : 201</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">## 查看这个索引里面的所有数据</span></span><br><span class="line">curl -XGET <span class="string">&#x27;localhost:9200/customer/_search?q=*&amp;pretty&#x27;</span></span><br><span class="line"><span class="comment">## output</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;took&quot;</span> : 97,</span><br><span class="line">  <span class="string">&quot;timed_out&quot;</span> : <span class="literal">false</span>,</span><br><span class="line">  <span class="string">&quot;_shards&quot;</span> : &#123;</span><br><span class="line">    <span class="string">&quot;total&quot;</span> : 1,</span><br><span class="line">    <span class="string">&quot;successful&quot;</span> : 1,</span><br><span class="line">    <span class="string">&quot;skipped&quot;</span> : 0,</span><br><span class="line">    <span class="string">&quot;failed&quot;</span> : 0</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;hits&quot;</span> : &#123;</span><br><span class="line">    <span class="string">&quot;total&quot;</span> : &#123;</span><br><span class="line">      <span class="string">&quot;value&quot;</span> : 2,</span><br><span class="line">      <span class="string">&quot;relation&quot;</span> : <span class="string">&quot;eq&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;max_score&quot;</span> : 1.0,</span><br><span class="line">    <span class="string">&quot;hits&quot;</span> : [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="string">&quot;_index&quot;</span> : <span class="string">&quot;customer&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_type&quot;</span> : <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_id&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_score&quot;</span> : 1.0,</span><br><span class="line">        <span class="string">&quot;_source&quot;</span> : &#123;</span><br><span class="line">          <span class="string">&quot;name&quot;</span> : <span class="string">&quot;John, Doe&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="string">&quot;_index&quot;</span> : <span class="string">&quot;customer&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_type&quot;</span> : <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_id&quot;</span> : <span class="string">&quot;2&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_score&quot;</span> : 1.0,</span><br><span class="line">        <span class="string">&quot;_source&quot;</span> : &#123;</span><br><span class="line">          <span class="string">&quot;name&quot;</span> : <span class="string">&quot;Jane, Doe&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="在一个批量操作中-更新第一个文档-删除第二个文档"><a href="#在一个批量操作中-更新第一个文档-删除第二个文档" class="headerlink" title="在一个批量操作中,更新第一个文档,删除第二个文档"></a>在一个批量操作中,更新第一个文档,删除第二个文档</h3><blockquote>
+<p>对于delete操作，只需提供被删除文档的ID即可</p>
+</blockquote>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">&#x27;localhost:9200/customer/_bulk?pretty&#x27;</span> -H <span class="string">&#x27;Content-Type: application/json&#x27;</span> -d <span class="string">&#x27;</span></span><br><span class="line"><span class="string">&#123;&quot;update&quot;: &#123;&quot;_id&quot;:&quot;1&quot;&#125;&#125;</span></span><br><span class="line"><span class="string">&#123;&quot;doc&quot;: &#123;&quot;name&quot;: &quot;Johe Doe becomes Jane Doe&quot; &#125;&#125;</span></span><br><span class="line"><span class="string">&#123;&quot;delete&quot;: &#123;&quot;_id&quot;:&quot;2&quot;&#125;&#125;</span></span><br><span class="line"><span class="string">&#x27;</span></span><br><span class="line"><span class="comment">## output</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;took&quot;</span> : 52,</span><br><span class="line">  <span class="string">&quot;errors&quot;</span> : <span class="literal">false</span>,</span><br><span class="line">  <span class="string">&quot;items&quot;</span> : [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;update&quot;</span> : &#123;</span><br><span class="line">        <span class="string">&quot;_index&quot;</span> : <span class="string">&quot;customer&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_type&quot;</span> : <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_id&quot;</span> : <span class="string">&quot;1&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_version&quot;</span> : 2,</span><br><span class="line">        <span class="string">&quot;result&quot;</span> : <span class="string">&quot;updated&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_shards&quot;</span> : &#123;</span><br><span class="line">          <span class="string">&quot;total&quot;</span> : 2,</span><br><span class="line">          <span class="string">&quot;successful&quot;</span> : 1,</span><br><span class="line">          <span class="string">&quot;failed&quot;</span> : 0</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">&quot;_seq_no&quot;</span> : 2,</span><br><span class="line">        <span class="string">&quot;_primary_term&quot;</span> : 1,</span><br><span class="line">        <span class="string">&quot;status&quot;</span> : 200</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;delete&quot;</span> : &#123;</span><br><span class="line">        <span class="string">&quot;_index&quot;</span> : <span class="string">&quot;customer&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_type&quot;</span> : <span class="string">&quot;_doc&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_id&quot;</span> : <span class="string">&quot;2&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_version&quot;</span> : 2,</span><br><span class="line">        <span class="string">&quot;result&quot;</span> : <span class="string">&quot;deleted&quot;</span>,</span><br><span class="line">        <span class="string">&quot;_shards&quot;</span> : &#123;</span><br><span class="line">          <span class="string">&quot;total&quot;</span> : 2,</span><br><span class="line">          <span class="string">&quot;successful&quot;</span> : 1,</span><br><span class="line">          <span class="string">&quot;failed&quot;</span> : 0</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">&quot;_seq_no&quot;</span> : 3,</span><br><span class="line">        <span class="string">&quot;_primary_term&quot;</span> : 1,</span><br><span class="line">        <span class="string">&quot;status&quot;</span> : 200</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://www.qikegu.com/docs/3051">Elasticsearch 使用集群</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://altman-xu.github.io/2021/07/21/Elasticsearch-API/" title="Elasticsearch-API" target="_blank" rel="external">https://altman-xu.github.io/2021/07/21/Elasticsearch-API/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/altman-xu" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/altman-xu" target="_blank"><span class="text-dark">Altman-xu</span><small class="ml-1x">Backend Engineer</small></a></h3>
+        <div>断剑重铸之日 骑士归来之时</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2021/07/21/Elasticsearch-AdvanceSearch/" title="Elasticsearch-AdvanceSearch"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2021/07/21/Elasticsearch-Install/" title="Elasticsearch-Install"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/altman-xu" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/AltmanXu2013" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2023 Altman
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+    <script defer>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://altman-xu.github.io/2021/07/21/Elasticsearch-API/';
+        
+        this.page.identifier = 'Elasticsearch-API';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'altman-xu-github-io' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>

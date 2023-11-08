@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>本博客搭建:Hexo+GithubPages+TraviCI+pure | Altman&#39;s Blog</title>
+  <meta name="description" content="最终目的流程 在本地hexo仓库新建博客文件 Hexo new &quot;new-blog-post-name&quot; 在本地疯狂编辑博客内容 new-blog-post-name.md 在本地部署查看效果 hexo s 然后访问 http:&#x2F;&#x2F;localhost:4000&#x2F; 查看最新文章在本地效果是否满意(此步骤可省略) push 本地 hexo 仓库到 github 上 远程 Travi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="本博客搭建:Hexo+GithubPages+TraviCI+pure">
+<meta property="og:url" content="https://altman-xu.github.io/2021/04/19/Build-Blog-Hexo-GithubPages-TraviCI-Pure/index.html">
+<meta property="og:site_name" content="Altman&#39;s Blog">
+<meta property="og:description" content="最终目的流程 在本地hexo仓库新建博客文件 Hexo new &quot;new-blog-post-name&quot; 在本地疯狂编辑博客内容 new-blog-post-name.md 在本地部署查看效果 hexo s 然后访问 http:&#x2F;&#x2F;localhost:4000&#x2F; 查看最新文章在本地效果是否满意(此步骤可省略) push 本地 hexo 仓库到 github 上 远程 Travi">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-04-19T03:50:43.000Z">
+<meta property="article:modified_time" content="2023-11-08T10:00:20.896Z">
+<meta property="article:author" content="Altman">
+<meta property="article:tag" content="Blog">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="TraviCI">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://altman-xu.github.io/2021/04/19/Build-Blog-Hexo-GithubPages-TraviCI-Pure/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Altman&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/altman-xu" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Altman-xu</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Backend Engineer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/altman-xu" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/AltmanXu2013" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>This is Altman-xu's Blog!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algorithm/" rel="tag">Algorithm</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/" rel="tag">Blog</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Digital-Certificate/" rel="tag">Digital-Certificate</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Elasticsearch/" rel="tag">Elasticsearch</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/" rel="tag">Hbase</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kafka/" rel="tag">Kafka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/" rel="tag">Life</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sort/" rel="tag">Sort</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TraviCI/" rel="tag">TraviCI</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/assembly/" rel="tag">assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Algorithm/" style="font-size: 14px;">Algorithm</a> <a href="/tags/Blog/" style="font-size: 13.75px;">Blog</a> <a href="/tags/Digital-Certificate/" style="font-size: 13px;">Digital-Certificate</a> <a href="/tags/Elasticsearch/" style="font-size: 13.5px;">Elasticsearch</a> <a href="/tags/Hbase/" style="font-size: 13px;">Hbase</a> <a href="/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/tags/Kafka/" style="font-size: 13.25px;">Kafka</a> <a href="/tags/Life/" style="font-size: 13px;">Life</a> <a href="/tags/Sort/" style="font-size: 13.75px;">Sort</a> <a href="/tags/TraviCI/" style="font-size: 13px;">TraviCI</a> <a href="/tags/assembly/" style="font-size: 13px;">assembly</a> <a href="/tags/k8s/" style="font-size: 13px;">k8s</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Blog/">Blog</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/11/08/Build-Blog-Hexo-GithubPages-GithubAction/" class="title">本博客搭建(v2):Hexo-GithubPages-GithubAction</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-11-08T08:29:26.000Z" itemprop="datePublished">2023-11-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Life/">Life</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/11/07/Life-30/" class="title">Life-30</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-11-07T09:51:00.000Z" itemprop="datePublished">2023-11-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Blog/">Blog</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/10/25/Blog-Restart-2023/" class="title">博客重启</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-10-25T08:10:10.000Z" itemprop="datePublished">2023-10-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/21/Elasticsearch-AdvanceSearch/" class="title">Elasticsearch-AdvanceSearch</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-21T08:09:32.000Z" itemprop="datePublished">2021-07-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/21/Elasticsearch-API/" class="title">Elasticsearch-API</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-21T03:00:35.000Z" itemprop="datePublished">2021-07-21</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E7%9B%AE%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">最终目的流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E7%8E%AF%E5%A2%83%E8%AF%B4%E6%98%8E"><span class="toc-number">2.</span> <span class="toc-text">本地环境说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hexo-%E6%9C%AC%E5%9C%B0%E5%88%9D%E5%A7%8B%E5%8C%96%E7%AB%99%E7%82%B9"><span class="toc-number">3.</span> <span class="toc-text">Hexo 本地初始化站点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pure-%E7%AB%99%E7%82%B9%E4%B8%BB%E9%A2%98"><span class="toc-number">4.</span> <span class="toc-text">pure 站点主题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6%E8%AF%B4%E6%98%8E"><span class="toc-number">4.1.</span> <span class="toc-text">本地安装插件说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0pure%E4%B8%BB%E9%A2%98%E4%BF%AE%E6%94%B9"><span class="toc-number">4.2.</span> <span class="toc-text">本地pure主题修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%84%E8%AE%BA%E8%AE%BE%E7%BD%AE"><span class="toc-number">4.3.</span> <span class="toc-text">评论设置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GitHub-Pages"><span class="toc-number">5.</span> <span class="toc-text">GitHub Pages</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Travis-CI-%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E6%96%B9%E6%A1%88"><span class="toc-number">6.</span> <span class="toc-text">Travis CI 自动化部署方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E6%96%B9%E6%A1%88%E5%8F%A6%E5%A4%96%E7%9A%84%E9%80%89%E6%8B%A9-hexo-d"><span class="toc-number">7.</span> <span class="toc-text">部署方案另外的选择 hexo d</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E8%AF%B4%E6%98%8E"><span class="toc-number">8.</span> <span class="toc-text">问题说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">9.</span> <span class="toc-text">hexo 常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo-%E6%A8%A1%E6%9D%BF%E4%BF%AE%E6%94%B9"><span class="toc-number">10.</span> <span class="toc-text">hexo 模板修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E5%BA%8A"><span class="toc-number">11.</span> <span class="toc-text">图床</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">12.</span> <span class="toc-text">参考链接</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Build-Blog-Hexo-GithubPages-TraviCI-Pure" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      本博客搭建:Hexo+GithubPages+TraviCI+pure
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/04/19/Build-Blog-Hexo-GithubPages-TraviCI-Pure/" class="article-date">
+	  <time datetime="2021-04-19T03:50:43.000Z" itemprop="datePublished">2021-04-19</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Blog/">Blog</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Blog/" rel="tag">Blog</a>, <a class="article-tag-link-link" href="/tags/Hexo/" rel="tag">Hexo</a>, <a class="article-tag-link-link" href="/tags/TraviCI/" rel="tag">TraviCI</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/04/19/Build-Blog-Hexo-GithubPages-TraviCI-Pure/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 2.4k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 10(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="最终目的流程"><a href="#最终目的流程" class="headerlink" title="最终目的流程"></a>最终目的流程</h2><ol>
+<li>在本地hexo仓库新建博客文件 <code>Hexo new &quot;new-blog-post-name&quot;</code></li>
+<li>在本地疯狂编辑博客内容 <code>new-blog-post-name.md</code></li>
+<li>在本地部署查看效果 <code>hexo s</code> 然后访问 <a target="_blank" rel="noopener" href="http://localhost:4000/">http://localhost:4000/</a> 查看最新文章在本地效果是否满意(此步骤可省略)</li>
+<li>push 本地 hexo 仓库到 github 上</li>
+<li>远程 Travis CI 自动触发 CI, 将源码 md 文件通过 hexo 编译为 html文件, 更新 GitHub Pages 内容</li>
+<li>访问浏览器查看到新内容</li>
+</ol>
+<h2 id="本地环境说明"><a href="#本地环境说明" class="headerlink" title="本地环境说明"></a>本地环境说明</h2><blockquote>
+<p>本机电脑: macOS Catalina  Version 10.15.7</p>
+</blockquote>
+<ol>
+<li><p>Git</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 安装: Mac电脑自带 Git,若无请手动安装</span></span>  </span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 版本</span></span></span><br><span class="line">➜  git --version</span><br><span class="line">git version 2.24.3 (Apple Git-128)</span><br></pre></td></tr></table></figure></li>
+<li><p>node</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 安装:</span></span> </span><br><span class="line">➜  brew install node</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 版本</span></span></span><br><span class="line">➜  git --version</span><br><span class="line">git version 2.24.3 (Apple Git-128)</span><br></pre></td></tr></table></figure></li>
+<li><p>npm</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 安装:</span></span> </span><br><span class="line">➜  brew install node</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 版本</span></span></span><br><span class="line">➜  npm -v</span><br><span class="line">7.7.6</span><br></pre></td></tr></table></figure></li>
+<li><p>hexo</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 安装</span></span></span><br><span class="line">➜  npm install -g hexo-cli</span><br><span class="line">➜  npm install -g hexo</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 版本</span></span></span><br><span class="line">➜  ~ hexo -version</span><br><span class="line">hexo-cli: 4.2.0</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="Hexo-本地初始化站点"><a href="#Hexo-本地初始化站点" class="headerlink" title="Hexo 本地初始化站点"></a>Hexo 本地初始化站点</h2><figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /Users/zhihua.xu/Documents/       <span class="comment">## 笔者将站点放在 Documents 目录下， 这个可以每个人自定义</span></span><br><span class="line">hexo init altman-xu.github.io       <span class="comment">## hexo 站点名字， 起名为这个是因为后面 github 仓库名也是这个</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>修改 站点的 _config.yml<br>最主要就修改下面这些数据, 注意使用的主题改为 pure</p>
+</blockquote>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">title:</span> <span class="string">Altman&#x27;s</span> <span class="string">Blog</span></span><br><span class="line"><span class="attr">subtitle:</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="attr">keywords:</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">Altman</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">en</span>     <span class="comment">## zh-CN en</span></span><br><span class="line"><span class="attr">timezone:</span> <span class="string">&#x27;Asia/Shanghai&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">url:</span> <span class="string">https://altman-xu.github.io/</span></span><br><span class="line"></span><br><span class="line"><span class="attr">theme:</span> <span class="string">pure</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="pure-站点主题"><a href="#pure-站点主题" class="headerlink" title="pure 站点主题"></a>pure 站点主题</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://theme-suka.skk.moe/docs/">theme-suka</a>    <a target="_blank" rel="noopener" href="https://blog.skk.moe/">Sukka’s Blog</a><br><a target="_blank" rel="noopener" href="https://theme-next.iissnan.com/">theme-next</a>     <a target="_blank" rel="noopener" href="https://notes.iissnan.com/">展示</a><br><a target="_blank" rel="noopener" href="https://github.com/cofess/hexo-theme-pure">theme-pure</a>  <a target="_blank" rel="noopener" href="https://blog.cofess.com/">展示</a>  </p>
+</blockquote>
+<p>对比了这三个主题，最终还是选择 pure 个人比较喜欢</p>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当前目录为 hexo 站点根目录: /Users/zhihua.xu/Documents/altman-xu.github.io</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/cofess/hexo-theme-pure.git themes/pure</span><br><span class="line"><span class="built_in">cd</span> themes/pure</span><br><span class="line">git pull</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## 启动本地 hexo 服务</span></span><br><span class="line">hexo s --debug   <span class="comment">## 部署站点，然后访问 http://localhost:4000/ 查看站点效果</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>接着 参照 <a target="_blank" rel="noopener" href="https://blog.cofess.com/2017/11/01/hexo-blog-theme-pure-usage-description.html#collapseToc">Hexo博客主题pure使用说明</a> 博客内容修改 pure 目录下的 _config.yml 文件<br>pure 目录下的 /source/images 部分图片也替换成自己的<br>在修改过程，有些修改重刷页面即可看到效果，有些需要重启服务</p>
+</blockquote>
+<h3 id="本地安装插件说明"><a href="#本地安装插件说明" class="headerlink" title="本地安装插件说明"></a>本地安装插件说明</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/willin/hexo-wordcount">hexo-wordcount</a><br> 作用: 字数统计、阅读时长预计 <figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-wordcount --save</span><br></pre></td></tr></table></figure></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/alexbruno/hexo-generator-json-content">hexo-generator-json-content</a><br> 作用: 站内搜索 <figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-json-content --save</span><br></pre></td></tr></table></figure></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-generator-feed">hexo-generator-feed</a><br> 作用: Generate Atom 1.0 or RSS 2.0 feed <figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-feed --save</span><br></pre></td></tr></table></figure></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-generator-sitemap">hexo-generator-sitemap</a><br> 作用: Generate sitemap – 针对谷歌<br> 使用站图的初衷是为自己的博客添加站内搜索,如果想更好的发挥站图的作用 <figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-sitemap --save</span><br></pre></td></tr></table></figure></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-generator-sitemap">hexo-generator-sitemap</a><br> 作用: Generate sitemap – 针对百度<br> 使用站图的初衷是为自己的博客添加站内搜索,如果想更好的发挥站图的作用，建议手动提交baidusitemap给百度. <figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-baidu-sitemap --save</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="本地pure主题修改"><a href="#本地pure主题修改" class="headerlink" title="本地pure主题修改"></a>本地pure主题修改</h3><blockquote>
+<p>pure 目录下的 /source/images 部分图片也替换成自己的<br>其余修改参照 <a target="_blank" rel="noopener" href="https://blog.cofess.com/2017/11/01/hexo-blog-theme-pure-usage-description.html#collapseToc">Hexo博客主题pure使用说明</a></p>
+</blockquote>
+<h3 id="评论设置"><a href="#评论设置" class="headerlink" title="评论设置"></a>评论设置</h3><p>之前想的是使用 <a target="_blank" rel="noopener" href="https://github.com/gitalk/gitalk">gitalk</a> 作为评论方案，可以用github登录更 programer, 但是遇到太多问题，故还是使用国外的 Disqus  </p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qing_gee/article/details/100133060">gitalk Error: Not Found.</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/w47_csdn/article/details/88858343">gitalk 解决配置gitalk插件后初始化登录时跳转回首页</a><br><a target="_blank" rel="noopener" href="https://cuiqingcai.com/30010.html">gitalk 评论登录 403 问题解决</a></p>
+</blockquote>
+<ol>
+<li>现在 Disqus[<a target="_blank" rel="noopener" href="https://disqus.com/]">https://disqus.com/]</a> 上新建一个站点名称为 altman-xu.github.io  可参照这个 <a target="_blank" rel="noopener" href="https://www.cylong.com/blog/2017/03/26/hexo-next-disqus/">Hexo 集成 Disqus 评论</a> </li>
+<li>修改 pure 下的 _config.yml 即可 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">comment:</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">disqus</span>  <span class="comment"># 启用哪种评论系统        ## gitalk proxy 频频报错，故改用 disqus</span></span><br><span class="line"><span class="attr">disqus:</span> <span class="string">altman-xu-github-io</span> <span class="comment"># enter disqus shortname here</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="GitHub-Pages"><a href="#GitHub-Pages" class="headerlink" title="GitHub Pages"></a>GitHub Pages</h2><p>在 github 上新建仓库, 仓库名为 <code>username.github.io</code></p>
+<figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当前目录为 hexo 站点根目录</span></span><br><span class="line"><span class="comment"># 添加 Github 仓库到本地</span></span><br><span class="line">git remote add origin https://github.com/altman-xu/altman-xu.github.io.git</span><br><span class="line"><span class="comment"># 编辑 .gitignore 文件, 如果没有，则手动创建这个文件， 文件内容如下， 注 一定不要有 themes/ 即我们要把这个文件夹下所有内容添加到 git 上(因为我们使用的 pure 主题，修改了源文件，也不想在 ci 过程中重新去 github 拉取)</span></span><br><span class="line"></span><br><span class="line">.DS_Store</span><br><span class="line">Thumbs.db</span><br><span class="line">db.json</span><br><span class="line">*.<span class="built_in">log</span></span><br><span class="line">node_modules/</span><br><span class="line">public/</span><br><span class="line">.deploy*/</span><br><span class="line"></span><br><span class="line"><span class="comment">## 去除 themes/pure 的 git 关联，改内容是从 git clone 过来的，现在我们改了内容，要 push 到我们自己的仓库中, 先将整个 themes/pure 文件备份一份，避免接下来操作出现问题</span></span><br><span class="line">rm -rf themes/pure/.git</span><br><span class="line">rm -rf themes/pure/.gitignore</span><br><span class="line">git rm --cached themes/pure/ -f     <span class="comment">## 干掉 submodule 关联，不执行这一步， 下面 push 时候会提示 fatal: in unpopulated submodule 这个错误</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 新建一个名为 source 的分支</span></span><br><span class="line">git checkout -b <span class="built_in">source</span></span><br><span class="line"><span class="comment"># 将所有文件添加到 git</span></span><br><span class="line">git add .</span><br><span class="line"><span class="comment"># 添加 commit</span></span><br><span class="line">git commit -m <span class="string">&quot;initial&quot;</span></span><br><span class="line"><span class="comment"># 将本地的文件推送到 Github 上的 source 分支</span></span><br><span class="line">git push -u origin <span class="built_in">source</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 注意去远程仓库看 themes/pure/ 下有没有内容</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Travis-CI-自动化部署方案"><a href="#Travis-CI-自动化部署方案" class="headerlink" title="Travis CI 自动化部署方案"></a>Travis CI 自动化部署方案</h2><ol>
+<li><p>将 <a target="_blank" rel="noopener" href="https://github.com/marketplace/travis-ci">Travis CI</a> 添加到你的 Github 账户 , 添加 Open Source, 其他都要收费</p>
+</li>
+<li><p>去 <a target="_blank" rel="noopener" href="https://github.com/settings/installations">Applications settings</a> 设置让 Travis CI 能够访问你的 repo</p>
+</li>
+<li><p>去 <a target="_blank" rel="noopener" href="https://github.com/settings/tokens">Personal access tokens</a> 为 Travis CI 新建一个 token ( 只需要 repo 这个 scopes )，然后把 token 的值记录下来</p>
+</li>
+<li><p>去 <a target="_blank" rel="noopener" href="https://travis-ci.com/">Travis CI</a>，在你的 repo 页面下点击 More Options 找到 Settings， 然后在 Environment Variables 下新建一个环境变量，Name 为 GH_TOKEN，Value 为刚才你在 GitHub 生成的 Token。确保 DISPLAY VALUE IN BUILD LOG 保持 不被勾选 避免你的 Token 泄漏。点击 Add 保存</p>
+</li>
+<li><p>在你的 Github 的项目 source 分支内新建一个名为 .travis.yml 的文件，参考以下内容进行填入</p>
+ <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">os:</span> <span class="string">linux</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">node_js</span> </span><br><span class="line"><span class="attr">node_js:</span></span><br><span class="line"><span class="bullet">-</span> <span class="number">10</span>  <span class="comment"># 使用 nodejs LTS v10</span></span><br><span class="line"><span class="attr">branches:</span></span><br><span class="line"><span class="attr">only:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">source</span> <span class="comment"># 只监控 source 的 branch</span></span><br><span class="line"><span class="attr">cache:</span></span><br><span class="line"><span class="attr">directories:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">node_modules</span> <span class="comment"># 缓存 node_modules 加快构建速度</span></span><br><span class="line"><span class="attr">before_script:</span> <span class="comment">## 根据你所用的主题和自定义的不同，这里会有所不同</span></span><br><span class="line">    <span class="comment"># 使用 themes/suka 是使用的 ci 脚本 begin</span></span><br><span class="line">    <span class="comment"># - npm install -g hexo-cli # 在 CI 环境内安装 Hexo</span></span><br><span class="line">    <span class="comment"># - mkdir themes # 由于我们没有将 themes/ 上传，所以我们需要新建一个</span></span><br><span class="line">    <span class="comment"># - cd themes </span></span><br><span class="line">    <span class="comment"># - git clone https://github.com/SukkaW/hexo-theme-suka.git suka #从 Github 上拉取 Suka 主题</span></span><br><span class="line">    <span class="comment"># - cd suka</span></span><br><span class="line">    <span class="comment"># - npm install --production # 安装 Suka 主题的依赖</span></span><br><span class="line">    <span class="comment"># - cd ../.. # 返回站点根目录</span></span><br><span class="line">    <span class="comment"># - cp _config.theme.yml themes/suka/_config.yml # 将主题的配置文件放回原处    </span></span><br><span class="line">    <span class="comment"># - npm install # 在根目录安装站点需要的依赖 </span></span><br><span class="line">    <span class="comment"># 使用 themes/suka 是使用的 ci 脚本 end</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 使用 themes/pure 是使用的 ci 脚本 begin       ## 注: 与 suka 最大的区别是 themes 不从 Github 上拉取，而是使用自己仓库里的 原因是修改了一些源码和图片</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">-g</span> <span class="string">hexo-cli</span> <span class="comment"># 在 CI 环境内安装 Hexo</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">hexo-wordcount</span> <span class="string">--save</span>                 <span class="comment"># 安装插件 hexo-wordcount</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">hexo-generator-json-content</span> <span class="string">--save</span>    <span class="comment"># 安装插件 hexo-generator-json-content</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">hexo-generator-feed</span> <span class="string">--save</span>            <span class="comment"># 安装插件 hexo-generator-feed</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">hexo-generator-sitemap</span> <span class="string">--save</span>         <span class="comment"># 安装插件 hexo-generator-sitemap</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">hexo-generator-baidu-sitemap</span> <span class="string">--save</span>   <span class="comment"># 安装插件 hexo-generator-baidu-sitemap</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">npm</span> <span class="string">install</span> <span class="comment"># 在根目录安装站点需要的依赖 </span></span><br><span class="line">    <span class="comment"># 使用 themes/pure 是使用的 ci 脚本 end</span></span><br><span class="line"><span class="attr">script:</span> </span><br><span class="line">    <span class="bullet">-</span> <span class="string">hexo</span> <span class="string">generate</span> <span class="comment"># generate static files</span></span><br><span class="line"><span class="attr">deploy:</span> <span class="comment"># 根据个人情况，这里会有所不同</span></span><br><span class="line"><span class="attr">provider:</span> <span class="string">pages</span></span><br><span class="line"><span class="attr">skip_cleanup:</span> <span class="literal">true</span> <span class="comment"># 构建完成后不清除</span></span><br><span class="line"><span class="attr">token:</span> <span class="string">$GH_TOKEN</span> <span class="comment"># 你刚刚设置的 token</span></span><br><span class="line"><span class="attr">keep_history:</span> <span class="literal">true</span> <span class="comment"># 保存历史</span></span><br><span class="line"><span class="comment"># fqdn: blog.ne0ng.page # 自定义域名，使用 username.github.io 可删除</span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">    <span class="attr">branch:</span> <span class="string">source</span> <span class="comment"># hexo 站点源文件所在的 branch</span></span><br><span class="line"><span class="attr">local_dir:</span> <span class="string">public</span> </span><br><span class="line"><span class="attr">target_branch:</span> <span class="string">master</span> <span class="comment"># 存放生成站点文件的 branch，使用 username.github.io 必须是 master</span></span><br></pre></td></tr></table></figure></li>
+<li><p>将 .travis.yml 推送到 repository 中。Travis CI 应该会自动开始运行，并将生成的文件推送到同一 repository 下的 master 分支下</p>
+</li>
+<li><p>在 GitHub 中前往你的 repository 的 Settings-Pages ，修改 GitHub Pages 的部署分支为 master</p>
+</li>
+<li><p>在 GitHub 中前往你的 repository 的 Branches, 将 Default Branch 修改为 master 分支</p>
+</li>
+<li><p>前往 <a href="https://altman-xu.github.io/">https://altman-xu.github.io</a> 查看你的站点是否可以访问。这可能需要一些时间。 也可以本地修改内容或 hexo new postArticle 然后推送git 重新触发 ci， 然后去 <a target="_blank" rel="noopener" href="https://travis-ci.com/">Travis CI</a> 上看构建情况 是否报错</p>
+</li>
+</ol>
+<h2 id="部署方案另外的选择-hexo-d"><a href="#部署方案另外的选择-hexo-d" class="headerlink" title="部署方案另外的选择 hexo d"></a>部署方案另外的选择 hexo d</h2><p>参照 <a target="_blank" rel="noopener" href="https://houxuefeng.com/2019/07/27/mac%E4%B8%8B%E6%90%AD%E5%BB%BAhexo-github/">mac下搭建hexo+github</a> 示例<br>通过 <code>hexo g &amp;&amp; hexo d</code> 将生成的静态html文件部署上git上<br>注: 这种方式没有将 源码文件也放到git上<br>我们上面的 通过 Travis CI 方式，将源码文件和生成的静态html文件都放到git上,更优雅; 在另外的机器上重新搭建写hexo也更方便</p>
+<h2 id="问题说明"><a href="#问题说明" class="headerlink" title="问题说明"></a>问题说明</h2><ol>
+<li>文章名字建议用全英文<br> hexo new “postArticleName”      新建文章时候，命令里的 postArticleName 文章名字使用 全英文<br> 然后在 _post 里面对应的 md 里面的 title， 可以使用想用的中文，避免gittalk转链接和长度限制错误</li>
+</ol>
+<h2 id="hexo-常用命令"><a href="#hexo-常用命令" class="headerlink" title="hexo 常用命令"></a>hexo 常用命令</h2><figure class="highlight zsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">&quot;postArticleName&quot;</span>      <span class="comment"># 新建文章</span></span><br><span class="line">hexo new page <span class="string">&quot;postArticleName&quot;</span> <span class="comment"># 新建页面</span></span><br><span class="line">hexo s                          <span class="comment"># 简写 hexo server # 开启预览访问端口（默认端口4000，&#x27;ctrl + c&#x27;关闭server）,可边修改配置边预览</span></span><br><span class="line">hexo g                          <span class="comment"># 简写 hexo generate # 生成静态页面至public目录</span></span><br><span class="line">hexo d                          <span class="comment"># 简写 hexo deploy # 将.deploy目录部署到GitHub</span></span><br><span class="line">hexo <span class="built_in">help</span>                       <span class="comment"># 查看帮助</span></span><br><span class="line">hexo clean                      <span class="comment">## 清楚缓存文件(db.json)和已生成的静态文件(public)</span></span><br><span class="line">hexo version                    <span class="comment"># 查看Hexo的版本</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="hexo-模板修改"><a href="#hexo-模板修改" class="headerlink" title="hexo 模板修改"></a>hexo 模板修改</h2><p>修改站点目录下的 /scaffolds/post.md , 改为如下内容, 优化 <code>hexo new &quot;postArticleName&quot;</code> 新创建文章的初始化内容</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#123;&#123; title &#125;&#125;</span><br><span class="line">date: &#123;&#123; date &#125;&#125;</span><br><span class="line">tags:       ## tags 多个的话, 分多行显示</span><br><span class="line"><span class="bullet">    -</span> tag1<span class="emphasis">_PleaseDelete</span></span><br><span class="line"><span class="emphasis">    - tag2_</span>PleaseDelete</span><br><span class="line">categories: # 目录暂不启用, 现主要使用 tag区分</span><br><span class="line">toc: true   # 是否启用内容索引 (每个文字页面下面的 Catalogue/文章目录)</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"><span class="section">## </span></span><br><span class="line"></span><br><span class="line"><span class="section">##</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="图床"><a href="#图床" class="headerlink" title="图床"></a>图床</h2><p><a href="https://altman-xu.github.io/2021/04/20/Build-Blog-Picture/">本博客搭建:PicGo+GitHub作为图床</a></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo 文档</a><br><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000021987832">Travis CI 加 Hexo 实现自动构建部署 Github Pages 博客</a><br><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/github-pages">将 Hexo 部署到 GitHub Pages</a><br><a target="_blank" rel="noopener" href="https://www.cylong.com/blog/2017/03/26/hexo-next-disqus/">Hexo 集成 Disqus 评论</a></p>
+</blockquote>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://altman-xu.github.io/2021/04/19/Build-Blog-Hexo-GithubPages-TraviCI-Pure/" title="本博客搭建:Hexo+GithubPages+TraviCI+pure" target="_blank" rel="external">https://altman-xu.github.io/2021/04/19/Build-Blog-Hexo-GithubPages-TraviCI-Pure/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/altman-xu" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/altman-xu" target="_blank"><span class="text-dark">Altman-xu</span><small class="ml-1x">Backend Engineer</small></a></h3>
+        <div>断剑重铸之日 骑士归来之时</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2021/04/20/Build-Blog-Picture/" title="本博客搭建:PicGo+GitHub作为图床"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2021/04/16/hello-world/" title="Hello World"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/altman-xu" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/AltmanXu2013" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2023 Altman
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+    <script defer>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://altman-xu.github.io/2021/04/19/Build-Blog-Hexo-GithubPages-TraviCI-Pure/';
+        
+        this.page.identifier = 'Build-Blog-Hexo-GithubPages-TraviCI-Pure';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'altman-xu-github-io' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>

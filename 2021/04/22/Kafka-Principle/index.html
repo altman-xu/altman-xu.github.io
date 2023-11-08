@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Kafka-原理 | Altman&#39;s Blog</title>
+  <meta name="description" content="Customer Group 消费者组Customer Group 是 Kafka 提供的可扩展且具有容错性的消费者机制 重要特征 组内可以有多个消费者实例（Consumer Instance） 消费者组的唯一标识被称为Group ID，组内的消费者共享这个公共的ID 消费者组订阅主题，主题的每个分区只能被组内的一个消费者消费 消费者组机制，同时实现了消息队列模型和发布&#x2F;订阅模型    若所有实例">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kafka-原理">
+<meta property="og:url" content="https://altman-xu.github.io/2021/04/22/Kafka-Principle/index.html">
+<meta property="og:site_name" content="Altman&#39;s Blog">
+<meta property="og:description" content="Customer Group 消费者组Customer Group 是 Kafka 提供的可扩展且具有容错性的消费者机制 重要特征 组内可以有多个消费者实例（Consumer Instance） 消费者组的唯一标识被称为Group ID，组内的消费者共享这个公共的ID 消费者组订阅主题，主题的每个分区只能被组内的一个消费者消费 消费者组机制，同时实现了消息队列模型和发布&#x2F;订阅模型    若所有实例">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-04-22T03:26:23.000Z">
+<meta property="article:modified_time" content="2023-11-08T10:00:20.896Z">
+<meta property="article:author" content="Altman">
+<meta property="article:tag" content="Kafka">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://altman-xu.github.io/2021/04/22/Kafka-Principle/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Altman&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/altman-xu" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Altman-xu</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Backend Engineer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/altman-xu" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/AltmanXu2013" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>This is Altman-xu's Blog!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algorithm/" rel="tag">Algorithm</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/" rel="tag">Blog</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Digital-Certificate/" rel="tag">Digital-Certificate</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Elasticsearch/" rel="tag">Elasticsearch</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/" rel="tag">Hbase</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kafka/" rel="tag">Kafka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/" rel="tag">Life</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sort/" rel="tag">Sort</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TraviCI/" rel="tag">TraviCI</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/assembly/" rel="tag">assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Algorithm/" style="font-size: 14px;">Algorithm</a> <a href="/tags/Blog/" style="font-size: 13.75px;">Blog</a> <a href="/tags/Digital-Certificate/" style="font-size: 13px;">Digital-Certificate</a> <a href="/tags/Elasticsearch/" style="font-size: 13.5px;">Elasticsearch</a> <a href="/tags/Hbase/" style="font-size: 13px;">Hbase</a> <a href="/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/tags/Kafka/" style="font-size: 13.25px;">Kafka</a> <a href="/tags/Life/" style="font-size: 13px;">Life</a> <a href="/tags/Sort/" style="font-size: 13.75px;">Sort</a> <a href="/tags/TraviCI/" style="font-size: 13px;">TraviCI</a> <a href="/tags/assembly/" style="font-size: 13px;">assembly</a> <a href="/tags/k8s/" style="font-size: 13px;">k8s</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Blog/">Blog</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/11/08/Build-Blog-Hexo-GithubPages-GithubAction/" class="title">本博客搭建(v2):Hexo-GithubPages-GithubAction</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-11-08T08:29:26.000Z" itemprop="datePublished">2023-11-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Life/">Life</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/11/07/Life-30/" class="title">Life-30</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-11-07T09:51:00.000Z" itemprop="datePublished">2023-11-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Blog/">Blog</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/10/25/Blog-Restart-2023/" class="title">博客重启</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-10-25T08:10:10.000Z" itemprop="datePublished">2023-10-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/21/Elasticsearch-AdvanceSearch/" class="title">Elasticsearch-AdvanceSearch</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-21T08:09:32.000Z" itemprop="datePublished">2021-07-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/21/Elasticsearch-API/" class="title">Elasticsearch-API</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-21T03:00:35.000Z" itemprop="datePublished">2021-07-21</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Customer-Group-%E6%B6%88%E8%B4%B9%E8%80%85%E7%BB%84"><span class="toc-number">1.</span> <span class="toc-text">Customer Group 消费者组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E8%A6%81%E7%89%B9%E5%BE%81"><span class="toc-number">1.1.</span> <span class="toc-text">重要特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Customer-Group-%E7%9A%84-Customer-%E6%95%B0%E9%87%8F"><span class="toc-number">1.2.</span> <span class="toc-text">Customer Group 的 Customer 数量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rebalance-%E9%87%8D%E5%B9%B3%E8%A1%A1"><span class="toc-number">2.</span> <span class="toc-text">Rebalance 重平衡</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E8%B4%A8"><span class="toc-number">2.1.</span> <span class="toc-text">本质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A6%E5%8F%91%E6%9D%A1%E4%BB%B6"><span class="toc-number">2.2.</span> <span class="toc-text">触发条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5"><span class="toc-number">2.3.</span> <span class="toc-text">分配策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%BA%E7%82%B9"><span class="toc-number">2.4.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Offset-%E4%BD%8D%E7%A7%BB"><span class="toc-number">3.</span> <span class="toc-text">Offset 位移</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Kafka-Principle" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Kafka-原理
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2021/04/22/Kafka-Principle/" class="article-date">
+	  <time datetime="2021-04-22T03:26:23.000Z" itemprop="datePublished">2021-04-22</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Kafka/" rel="tag">Kafka</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2021/04/22/Kafka-Principle/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 771(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 2(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="Customer-Group-消费者组"><a href="#Customer-Group-消费者组" class="headerlink" title="Customer Group 消费者组"></a>Customer Group 消费者组</h2><p>Customer Group 是 Kafka 提供的可扩展且具有容错性的消费者机制</p>
+<h3 id="重要特征"><a href="#重要特征" class="headerlink" title="重要特征"></a>重要特征</h3><ol>
+<li>组内可以有多个消费者实例（Consumer Instance）</li>
+<li>消费者组的唯一标识被称为Group ID，组内的消费者共享这个公共的ID</li>
+<li>消费者组订阅主题，主题的每个分区只能被组内的一个消费者消费</li>
+<li>消费者组机制，同时实现了<strong>消息队列</strong>模型和<strong>发布/订阅</strong>模型   <blockquote>
+<p>若所有实例都属于一个 Group, 则实现<strong>消息队列</strong>模型<br>若所有实例分别属于不同 Group, 则实现<strong>发布/订阅</strong>模型</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="Customer-Group-的-Customer-数量"><a href="#Customer-Group-的-Customer-数量" class="headerlink" title="Customer Group 的 Customer 数量"></a>Customer Group 的 Customer 数量</h3><p>理想情况下，Consumer 实例的数量应该等于该 Group 订阅主题的分区总数</p>
+<blockquote>
+<p>假设一个 Group 订阅了 3 个主题，分别是 A、B、C，它们的分区数依次是 1、2、3（总共是 6 个分区）<br>若设置 6 个 Consumer 实例，则平均每个示例消费 6/6=1 个分区，是<strong>理想情形</strong>，最大限度地实现高伸缩性<br>若设置 3 个 Consumer 实例，则平均每个示例消费 6/3=2 个分区<br>若设置 8 个 Consumer 实例，则会浪费 8-6=2 个 Customer 示例，他们不会被分配到任何分区，永远空闲</p>
+</blockquote>
+<h2 id="Rebalance-重平衡"><a href="#Rebalance-重平衡" class="headerlink" title="Rebalance 重平衡"></a>Rebalance 重平衡</h2><h3 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h3><p>本质上是一种协议，规定了一个 Consumer Group 下的所有 Consumer 如何达成一致，来分配订阅 Topic 的每个分区</p>
+<h3 id="触发条件"><a href="#触发条件" class="headerlink" title="触发条件"></a>触发条件</h3><ol>
+<li>组成员数发生变更  <blockquote>
+<p>比如有新的 Consumer 实例加入组或者离开组，抑或是有 Consumer 实例崩溃被“踢出”组</p>
+</blockquote>
+</li>
+<li>订阅主题数发生变更<blockquote>
+<p>Consumer Group 可以使用正则表达式的方式订阅主题，比如 consumer.subscribe(Pattern.compile(“t.*c”)) 就表明该 Group 订阅所有以字母 t 开头、字母 c 结尾的主题<br>在 Consumer Group 的运行过程中，你新创建了一个满足这样条件的主题，那么该 Group 就会发生 Rebalance</p>
+</blockquote>
+</li>
+<li>订阅主题的分区数发生变更  <blockquote>
+<p>Kafka 当前只能允许增加一个主题的分区数。当分区数增加时，就会触发订阅该主题的所有 Group 开启 Rebalance  </p>
+</blockquote>
+</li>
+</ol>
+<h3 id="分配策略"><a href="#分配策略" class="headerlink" title="分配策略"></a>分配策略</h3><p>Rebalance 发生时，Group 下所有的 Consumer 实例都会协调在一起共同参与，根据<strong>分配策略</strong>的协助， 给每个 Consumer 实例分配对应的主题分区  </p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li>Stop The World<blockquote>
+<p>在 Rebalance 过程中，所有 Consumer 实例都会停止消费，等待 Rebalance 完成，耗时长</p>
+</blockquote>
+</li>
+<li>所有 Customer 全部重新分配分区<blockquote>
+<p>更高效的做法是尽量减少分配方案的变动。例如实例 A 之前负责消费分区 1、2、3，那么 Rebalance 之后，如果可能的话，最好还是让实例 A 继续消费分区 1、2、3，而不是被重新分配其他的分区。这样的话，实例 A 连接这些分区所在 Broker 的 TCP 连接就可以继续用，不用重新创建连接其他 Broker 的 Socket 资源。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="Offset-位移"><a href="#Offset-位移" class="headerlink" title="Offset 位移"></a>Offset 位移</h2>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://altman-xu.github.io/2021/04/22/Kafka-Principle/" title="Kafka-原理" target="_blank" rel="external">https://altman-xu.github.io/2021/04/22/Kafka-Principle/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/altman-xu" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/altman-xu" target="_blank"><span class="text-dark">Altman-xu</span><small class="ml-1x">Backend Engineer</small></a></h3>
+        <div>断剑重铸之日 骑士归来之时</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2021/05/14/Digital-Certificate/" title="消息摘要、数字签名、数字证书"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2021/04/21/Kafka-Concept/" title="Kafka-基本概念"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/altman-xu" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/AltmanXu2013" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2023 Altman
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+    <script defer>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://altman-xu.github.io/2021/04/22/Kafka-Principle/';
+        
+        this.page.identifier = 'Kafka-Principle';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'altman-xu-github-io' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>

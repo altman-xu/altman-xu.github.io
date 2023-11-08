@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>本博客搭建(v2):Hexo-GithubPages-GithubAction | Altman&#39;s Blog</title>
+  <meta name="description" content="本博客搭建:Hexo+GithubPages+TraviCI+pureGitHub Actions 自动部署 Hexo 博客GitHub Actions 入门教程GitHub Actions 官方文档  背景原有的 blog 搭建流程本博客搭建:Hexo+GithubPages+TraviCI+pure 随着 Travi CI 在 2020 年开始收费, 已经不可用.  所以改用新的方式搭建博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="本博客搭建(v2):Hexo-GithubPages-GithubAction">
+<meta property="og:url" content="https://altman-xu.github.io/2023/11/08/Build-Blog-Hexo-GithubPages-GithubAction/index.html">
+<meta property="og:site_name" content="Altman&#39;s Blog">
+<meta property="og:description" content="本博客搭建:Hexo+GithubPages+TraviCI+pureGitHub Actions 自动部署 Hexo 博客GitHub Actions 入门教程GitHub Actions 官方文档  背景原有的 blog 搭建流程本博客搭建:Hexo+GithubPages+TraviCI+pure 随着 Travi CI 在 2020 年开始收费, 已经不可用.  所以改用新的方式搭建博客">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/20231108-gitaction-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/20231108-gitaction-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/20231108-gitaction-3.png">
+<meta property="article:published_time" content="2023-11-08T08:29:26.000Z">
+<meta property="article:modified_time" content="2023-11-08T10:00:20.896Z">
+<meta property="article:author" content="Altman">
+<meta property="article:tag" content="Blog">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/20231108-gitaction-1.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://altman-xu.github.io/2023/11/08/Build-Blog-Hexo-GithubPages-GithubAction/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Altman&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/altman-xu" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Altman-xu</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Backend Engineer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/altman-xu" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/AltmanXu2013" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>This is Altman-xu's Blog!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Algorithm/">Algorithm</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Algorithm/" rel="tag">Algorithm</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/" rel="tag">Blog</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Digital-Certificate/" rel="tag">Digital-Certificate</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Elasticsearch/" rel="tag">Elasticsearch</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hbase/" rel="tag">Hbase</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kafka/" rel="tag">Kafka</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/" rel="tag">Life</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sort/" rel="tag">Sort</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TraviCI/" rel="tag">TraviCI</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/assembly/" rel="tag">assembly</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/k8s/" rel="tag">k8s</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Algorithm/" style="font-size: 14px;">Algorithm</a> <a href="/tags/Blog/" style="font-size: 13.75px;">Blog</a> <a href="/tags/Digital-Certificate/" style="font-size: 13px;">Digital-Certificate</a> <a href="/tags/Elasticsearch/" style="font-size: 13.5px;">Elasticsearch</a> <a href="/tags/Hbase/" style="font-size: 13px;">Hbase</a> <a href="/tags/Hexo/" style="font-size: 13px;">Hexo</a> <a href="/tags/Kafka/" style="font-size: 13.25px;">Kafka</a> <a href="/tags/Life/" style="font-size: 13px;">Life</a> <a href="/tags/Sort/" style="font-size: 13.75px;">Sort</a> <a href="/tags/TraviCI/" style="font-size: 13px;">TraviCI</a> <a href="/tags/assembly/" style="font-size: 13px;">assembly</a> <a href="/tags/k8s/" style="font-size: 13px;">k8s</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/11/">November 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/10/">October 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Blog/">Blog</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/11/08/Build-Blog-Hexo-GithubPages-GithubAction/" class="title">本博客搭建(v2):Hexo-GithubPages-GithubAction</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-11-08T08:29:26.000Z" itemprop="datePublished">2023-11-08</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Life/">Life</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/11/07/Life-30/" class="title">Life-30</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-11-07T09:51:00.000Z" itemprop="datePublished">2023-11-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Blog/">Blog</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/10/25/Blog-Restart-2023/" class="title">博客重启</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-10-25T08:10:10.000Z" itemprop="datePublished">2023-10-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/21/Elasticsearch-AdvanceSearch/" class="title">Elasticsearch-AdvanceSearch</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-21T08:09:32.000Z" itemprop="datePublished">2021-07-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2021/07/21/Elasticsearch-API/" class="title">Elasticsearch-API</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2021-07-21T03:00:35.000Z" itemprop="datePublished">2021-07-21</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87"><span class="toc-number">2.</span> <span class="toc-text">目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E"><span class="toc-number">3.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">4.</span> <span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E7%94%9F%E6%88%90-ssh-%E5%AF%86%E9%92%A5%E5%AF%B9"><span class="toc-number">4.1.</span> <span class="toc-text">本地生成 ssh 密钥对</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8-config-yml-%E6%B7%BB%E5%8A%A0%E5%86%85%E5%AE%B9"><span class="toc-number">4.2.</span> <span class="toc-text">在 _config.yml 添加内容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E5%86%99-workflow"><span class="toc-number">4.3.</span> <span class="toc-text">编写 workflow</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cicd-%E6%89%A7%E8%A1%8C"><span class="toc-number">5.</span> <span class="toc-text">cicd 执行</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Build-Blog-Hexo-GithubPages-GithubAction" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      本博客搭建(v2):Hexo-GithubPages-GithubAction
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2023/11/08/Build-Blog-Hexo-GithubPages-GithubAction/" class="article-date">
+	  <time datetime="2023-11-08T08:29:26.000Z" itemprop="datePublished">2023-11-08</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Blog/">Blog</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Blog/" rel="tag">Blog</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/11/08/Build-Blog-Hexo-GithubPages-GithubAction/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 926(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 4(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p><a href="https://altman-xu.github.io/2021/04/19/Build-Blog-Hexo-GithubPages-TraviCI-Pure/">本博客搭建:Hexo+GithubPages+TraviCI+pure</a><br><a target="_blank" rel="noopener" href="https://blog.zhanganzhi.com/zh-CN/2022/06/0800d76d306e/">GitHub Actions 自动部署 Hexo 博客</a><br><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html">GitHub Actions 入门教程</a><br><a target="_blank" rel="noopener" href="https://docs.github.com/zh/actions/using-workflows/events-that-trigger-workflows#running-your-workflow-only-when-a-push-affects-specific-files">GitHub Actions 官方文档</a></p>
+</blockquote>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>原有的 blog 搭建流程<a href="https://altman-xu.github.io/2021/04/19/Build-Blog-Hexo-GithubPages-TraviCI-Pure/">本博客搭建:Hexo+GithubPages+TraviCI+pure</a> 随着 Travi CI 在 2020 年开始收费, 已经不可用. </p>
+<p>所以改用新的方式搭建博客</p>
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><ol>
+<li>博客用一个仓库地址</li>
+<li>source 分支用来存放 项目源代码</li>
+<li>master 分支用来存放 hexo 编译 source 分支的文件后，生成的文件</li>
+<li>用户只需要编写 md 博客文档, 编译生成 html 的动作交由 cicd 流程</li>
+<li>之前的 cicd 使用 travi ci</li>
+<li>新方式改用为 GithubAction</li>
+</ol>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>本文调整之前搭建流程的 ci 模块 <a href="https://altman-xu.github.io/2021/04/19/Build-Blog-Hexo-GithubPages-TraviCI-Pure/#Travis-CI-%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E6%96%B9%E6%A1%88">本博客搭建:Hexo+GithubPages+TraviCI+pure</a> </p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="本地生成-ssh-密钥对"><a href="#本地生成-ssh-密钥对" class="headerlink" title="本地生成 ssh 密钥对"></a>本地生成 ssh 密钥对</h3><p>在本地生成一对 SSH 密钥，注意更改文件名避免将正在使用的密钥覆盖。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t ed25519 -C <span class="string">&quot;xuzhihua1107@gmail.com&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>在博客仓库的 Settings -&gt; Secrets -&gt; Actions 中添加 SSH 私钥, 内容为刚刚生成的 id_ed25519 文件的秘钥值, 命名为 SSH_DEPLOY_KEY</p>
+<p><img src="https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/20231108-gitaction-1.png" alt="20231108-gitaction-1"></p>
+<p>在部署仓库的 Settings -&gt; Deploy keys 中添加 SSH 公钥, 内容为刚刚生成的 id_ed25519.pub 文件的公钥值, 命名为 public key of SSH_DEPLOY_KEY 注意勾选 Allow write access。</p>
+<p><img src="https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/20231108-gitaction-2.png" alt="20231108-gitaction-2"></p>
+<blockquote>
+<p>注: 后续的 workflow 会使用 SSH_DEPLOY_KEY 公钥值来部署</p>
+</blockquote>
+<h3 id="在-config-yml-添加内容"><a href="#在-config-yml-添加内容" class="headerlink" title="在 _config.yml 添加内容"></a>在 _config.yml 添加内容</h3><p><a target="_blank" rel="noopener" href="https://github.com/altman-xu/altman-xu.github.io/blob/source/_config.yml">_config.yml</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git</span><br><span class="line">  repo: git@github.com:altman-xu/altman-xu.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<h3 id="编写-workflow"><a href="#编写-workflow" class="headerlink" title="编写 workflow"></a>编写 workflow</h3><p>创建 <a target="_blank" rel="noopener" href="https://github.com/altman-xu/altman-xu.github.io/blob/source/.github/workflows/githubactions.yaml">.github/workflows/githubactions.yml</a></p>
+<p>写入以下内容，注意修改仓库地址和 Git 配置。此时当 push 到博客仓库时，GitHub Actions 将会自动部署</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">name: githubactions <span class="comment"># yml文件名</span></span><br><span class="line"></span><br><span class="line">env:</span><br><span class="line">  GIT_USER: altman-xu</span><br><span class="line">  GIT_EMAIL: xuzhihua1107@gmail.com</span><br><span class="line">  DEPLOY_REPO: altman-xu/altman-xu.github.io</span><br><span class="line">  DEPLOY_BRANCH: master </span><br><span class="line"></span><br><span class="line">on:</span><br><span class="line">  push:</span><br><span class="line">    branches:</span><br><span class="line">      - <span class="built_in">source</span>    <span class="comment"># 仅当推送 source 分支时才运行工作流程</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">jobs</span>:</span><br><span class="line">  build-and-deploy: <span class="comment"># 任务名</span></span><br><span class="line">    runs-on: ubuntu-latest</span><br><span class="line">    steps:</span><br><span class="line">      - name: Checkout <span class="built_in">source</span>               <span class="comment"># 下载 source 分支代码</span></span><br><span class="line">        uses: actions/checkout@v2</span><br><span class="line">        with: </span><br><span class="line">          ref: <span class="built_in">source</span></span><br><span class="line">      - name: Setup Nodejs                  <span class="comment"># 安装 node.js</span></span><br><span class="line">        uses: actions/setup-node@v2</span><br><span class="line">        with:</span><br><span class="line">          node-version: <span class="string">&#x27;10&#x27;</span></span><br><span class="line">      - name: Cache node modules            <span class="comment"># 缓存 node</span></span><br><span class="line">        id: cache-npm</span><br><span class="line">        uses: actions/cache@v3</span><br><span class="line">        env:</span><br><span class="line">          cache-name: cache-node-modules</span><br><span class="line">        with:</span><br><span class="line">          <span class="comment"># npm cache files are stored in `~/.npm` on Linux/macOS</span></span><br><span class="line">          path: ~/.npm</span><br><span class="line">          key: <span class="variable">$&#123;&#123; runner.os &#125;</span>&#125;-build-<span class="variable">$&#123;&#123; env.cache-name &#125;</span>&#125;-<span class="variable">$&#123;&#123; hashFiles(&#x27;**/package-lock.json&#x27;) &#125;</span>&#125;</span><br><span class="line">          restore-keys: |</span><br><span class="line">            <span class="variable">$&#123;&#123; runner.os &#125;</span>&#125;-build-<span class="variable">$&#123;&#123; env.cache-name &#125;</span>&#125;-</span><br><span class="line">            <span class="variable">$&#123;&#123; runner.os &#125;</span>&#125;-build-</span><br><span class="line">            <span class="variable">$&#123;&#123; runner.os &#125;</span>&#125;-</span><br><span class="line"></span><br><span class="line">      - name: Debug Cache Hit</span><br><span class="line">        run: <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$&#123;&#123; steps.cache-npm.outputs.cache-hit &#125;</span>&#125;&quot;</span>  <span class="comment"># true 代表缓存命中 ~/.npm 没有变化; 而&#x27;&#x27;代表没有命中, ~/.npm 发生变化</span></span><br><span class="line"></span><br><span class="line">      - name: Install npm                                   <span class="comment"># 只有结果是&#x27;&#x27;时才执行</span></span><br><span class="line">        <span class="keyword">if</span>: <span class="variable">$&#123;&#123; steps.cache-npm.outputs.cache-hit != &#x27;true&#x27; &#125;</span>&#125;</span><br><span class="line">        continue-on-error: <span class="literal">true</span></span><br><span class="line">        run: npm install                                    <span class="comment"># 在根目录安装站点需要的依赖</span></span><br><span class="line"></span><br><span class="line">      - name: Install npm hexo                              <span class="comment"># 安装依赖</span></span><br><span class="line">        <span class="comment"># if: $&#123;&#123; steps.cache-npm.outputs.cache-hit != &#x27;true&#x27; &#125;&#125;  # 缓存暂时不能对 hexo 相关生效, 奇怪</span></span><br><span class="line">        run: |</span><br><span class="line">          npm install hexo-cli -g                           <span class="comment"># 在 CI 环境内安装 Hexo</span></span><br><span class="line">          npm install hexo-wordcount --save                 <span class="comment"># 安装插件 hexo-wordcount</span></span><br><span class="line">          npm install hexo-generator-json-content --save    <span class="comment"># 安装插件 hexo-generator-json-content</span></span><br><span class="line">          npm install hexo-generator-feed --save            <span class="comment"># 安装插件 hexo-generator-feed</span></span><br><span class="line">          npm install hexo-generator-sitemap --save         <span class="comment"># 安装插件 hexo-generator-sitemap</span></span><br><span class="line">          npm install hexo-generator-baidu-sitemap --save   <span class="comment"># 安装插件 hexo-generator-baidu-sitemap</span></span><br><span class="line">          npm install hexo-deployer-git --save              <span class="comment"># 安装插件 用来执行 hexo deploy</span></span><br><span class="line">      - name: Setup Git                   <span class="comment"># 设置 git 环境变量</span></span><br><span class="line">        run: |</span><br><span class="line">          git config --global user.name <span class="variable">$GIT_USER</span></span><br><span class="line">          git config --global user.email <span class="variable">$GIT_EMAIL</span></span><br><span class="line">      - name: Setup SSH Key               <span class="comment"># 设置 sshkey</span></span><br><span class="line">        run: |</span><br><span class="line">          mkdir -p ~/.ssh</span><br><span class="line">          <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$&#123;&#123; secrets.SSH_DEPLOY_KEY &#125;</span>&#125;&quot;</span> &gt; ~/.ssh/id_ed25519</span><br><span class="line">          chmod 600 ~/.ssh/id_ed25519</span><br><span class="line">          ssh-keyscan github.com &gt;&gt; ~/.ssh/known_hosts</span><br><span class="line">      - name: hexo generate</span><br><span class="line">        run: |</span><br><span class="line">          hexo clean</span><br><span class="line">          hexo generate</span><br><span class="line">      - name: hexo deploy</span><br><span class="line">        run: |</span><br><span class="line">          hexo deploy</span><br></pre></td></tr></table></figure>
+
+<h2 id="cicd-执行"><a href="#cicd-执行" class="headerlink" title="cicd 执行"></a>cicd 执行</h2><p>每次在 source 分支, 编写新博客 md 文件, 提交到 git 远程后，都会触发 cicd 流程, 如下图所示, 可以点击进去查看 cicd 执行的每个步骤</p>
+<p><img src="https://raw.githubusercontent.com/altman-xu/altman-xu.github.io/source/ImageForBlog/20231108-gitaction-3.png" alt="20231108-gitaction-3"></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://altman-xu.github.io/2023/11/08/Build-Blog-Hexo-GithubPages-GithubAction/" title="本博客搭建(v2):Hexo-GithubPages-GithubAction" target="_blank" rel="external">https://altman-xu.github.io/2023/11/08/Build-Blog-Hexo-GithubPages-GithubAction/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/altman-xu" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/altman-xu" target="_blank"><span class="text-dark">Altman-xu</span><small class="ml-1x">Backend Engineer</small></a></h3>
+        <div>断剑重铸之日 骑士归来之时</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2023/11/07/Life-30/" title="Life-30"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/altman-xu" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/AltmanXu2013" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2023 Altman
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+    <script defer>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://altman-xu.github.io/2023/11/08/Build-Blog-Hexo-GithubPages-GithubAction/';
+        
+        this.page.identifier = 'Build-Blog-Hexo-GithubPages-GithubAction';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'altman-xu-github-io' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
