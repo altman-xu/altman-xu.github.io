@@ -1,5 +1,7 @@
 ---
 title: Hello World
+tags:
+  - Blog
 date: 2021-04-16 09:02:29
 toc: true # 是否启用内容索引 (每个文字页面下面的 Catalogue/文章目录)
 categories:

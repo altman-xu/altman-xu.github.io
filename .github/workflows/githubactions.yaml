@@ -98,3 +98,9 @@ jobs:
 
 ## ssh-keygen -t rsa -b 4096 -C "xuzhihua1107@gmail.com" -f gh-pages -N ""
 ## ssh-keygen -t ed25519 -C "xuzhihua1107@gmail.com" 
+
+# [GitHub Actions 入门教程](https://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html)
+# [GitHub Actions 官方文档](https://docs.github.com/zh/actions/using-workflows/events-that-trigger-workflows#running-your-workflow-only-when-a-push-affects-specific-files)
+# [Hexo+GitHub Actions搭建个人博客，实现云端协写作、一键发布](https://mdnice.com/writing/5c0ea88d4f624fa2b047463a0e24a9ef)
+# [GitHub Actions 自动部署 Hexo 博客_](https://blog.zhanganzhi.com/zh-CN/2022/06/0800d76d306e/)
+# [利用 Github Actions 自动部署 Hexo 博客](https://sanonz.github.io/2020/deploy-a-hexo-blog-from-github-actions/)
